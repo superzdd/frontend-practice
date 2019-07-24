@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="parent">
+			<div id="child-1">
+				<div id="child1-1">
+					<div id="child1-1-1">
+						a
+					</div>
+				</div>
+				<div id="child1-2">
+					<div id="child1-2-1">
+						b
+					</div>
+				</div>
+				<div id="child1-3">
+					c
+				</div>
+			</div>
+			<div id="child-2">
+				<div id="child-2-1">
+					d
+				</div>
+				<div id="child-2-2">
+					e
+				</div>
+			</div>
+			<div id="child-3">
+				<div id="child-3-1">
+					f
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="module">
+		import {
+			deepSearch,
+			deepSearchLoop
+		}
+		from './deep.js';
+
+		import {
+			breadthSearch
+		} from './breadth.js';
+
+		let node = document.getElementById('parent');
+
+		function print(obj) {
+			console.log(JSON.stringify(obj));
+		}
+
+		console.log('dfs');
+		print(deepSearch(node));
+
+		console.log('dfs');
+		print(deepSearchLoop(node));
+
+		console.log('bfs');
+		print(breadthSearch(node));
+	</script>
+</html>
