@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		
+	</body>
+	<script type="module">
+		import {
+			deepSearch,
+			deepSearchLoop
+		}
+		from './deep.js';
+
+		import {
+			breadthSearch
+		} from './breadth.js';
+
+		let node = document.getElementById('parent');
+
+		function print(obj) {
+			console.log(JSON.stringify(obj));
+		}
+
+		let obj1 = {
+			child1:{
+				child1_1: 'a',
+				child1_2: ['1','2','3']
+			},
+			child2: true,
+			child3: null,
+			child4: undefined,
+			child5: 'child5'
+		}
+		
+		let obj2 = {
+			child1:{
+				child1_1: 'a',
+				child1_2: ['1','2','3']
+			}
+		}
+		
+		console.log(deepSearch(obj2));
+		console.log(deepSearch(obj1));
+	</script>
+</html>
