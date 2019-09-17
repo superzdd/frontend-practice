@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			/**
+			 * 使用sleep，可以有阻塞和没阻塞两种
+			 * 先实现没阻塞的settimeout，比较简单
+			 */
+
+			// 没阻塞方法，使用原生callback
+			/**
+			 * @param {Object} cb callback回调
+			 * @param {int} delay 延迟毫秒数
+			 */
+			var sleepCallback = function(cb, delay) {
+				setTimeout(function() {
+					if (!!cb) {
+						cb();
+					}
+				}, delay);
+			}
+
+			console.time('callback');
+			sleepCallback(() => {
+				console.timeEnd('callback')
+			}, 1000);
+
+			// 不阻塞 使用Promise
+			var sleepPromise = function(delay) {
+				return new Promise((res, rej) => {
+					setTimeout(() => {
+						res()
+					}, delay);
+				});
+			}
+
+			console.time('promise');
+			sleepPromise(1000).then(() => {
+				console.timeEnd('promise');
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			let arr1 = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2'];
+			let arr2 = ['A', 'B', 'C', 'D'];
+
+			let arr3 = arr2.map(e => {
+				return e + 'Max'
+			});
+
+			let arr = arr1.concat(arr3).sort();
+			
+			arr = arr.map(e => {
+				return e.replace('Max', '')
+			});
+
+			console.log(arr);
+		</script>
+	</body>
+</html>
