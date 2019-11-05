@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// 生成随机数组
+			function random(n, min, max) {
+				let arr = [];
+				for (let i = 0; i < n; i++) {
+					let num = (min + Math.random() * (max - min)) | 0;
+					arr.push(num);
+				}
+				return arr;
+			};
+
+
+			let bubbleSort = function(arr) {
+				if (arr.length < 2) {
+					return arr;
+				}
+
+				for (let i = 0; i < arr.length - 1; i++) {
+					for (let j = 0; j < arr.length - i - 1; j++) {
+						if (arr[j] > arr[j + 1]) {
+							[arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+						}
+					}
+				}
+
+				return arr;
+			}
+
+			let bubbleSortAdv = function(arr) {
+				if (arr.length < 2) {
+					return arr;
+				}
+				
+				let swapIndex = arr.length - 1;
+				while (swapIndex > 0) {
+					let thisTimeIndex = -1;
+					for (let j = 0; j < swapIndex; j++) {
+						if (arr[j] > arr[j + 1]) {
+							thisTimeIndex = j;
+							[arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+						}
+					}
+					swapIndex = thisTimeIndex;
+				}
+
+				return arr;
+			}
+
+			let arr = [1,2,3,4,5];
+			console.log('>>>>>>>>>>>>>');
+			console.log(`before sort    : ${JSON.stringify(arr)}`);
+			console.time('sort');
+			let arr1 = bubbleSort([].concat(arr));
+			console.log(`after sort     : ${JSON.stringify(arr1)}`);
+			console.timeEnd('sort');
+			
+			console.time('sortadv');
+			let arr2 = bubbleSortAdv([].concat(arr));
+			console.log(`after sortadv  : ${JSON.stringify(arr2)}`);
+			console.timeEnd('sortadv');
+
+
+			// 测试
+
+			for (let i = 0; i < 10; i++) {
+				let arr = random(10, 0, 10);
+
+				console.log('>>>>>>>>>>>>>');
+				console.log(`before sort    : ${JSON.stringify(arr)}`);
+
+				console.time('sort');
+				let arr1 = bubbleSort([].concat(arr));
+				console.log(`after sort     : ${JSON.stringify(arr1)}`);
+				console.timeEnd('sort');
+
+				console.time('sortadv');
+				let arr2 = bubbleSortAdv([].concat(arr));
+				console.log(`after sortadv  : ${JSON.stringify(arr2)}`);
+				console.timeEnd('sortadv');
+			}
+		</script>
+	</body>
+</html>
