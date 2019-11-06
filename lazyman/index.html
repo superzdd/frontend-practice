@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// es5
+			var Lazyman = function(name) {
+				var instance = this;
+				console.log('Hi I am ' + name);
+				return instance;
+
+				this.sleep = function(sec) {
+					console.log('等待了' + sec + '秒');
+					return instance;
+				}
+
+				this.eat = function(name) {
+					console.log('I am eating ' + name);
+					return instance;
+				}
+			}
+		</script>
+	</body>
+</html>
