@@ -7,21 +7,110 @@
 	<body>
 		<script type="text/javascript">
 			// es5
-			var Lazyman = function(name) {
-				var instance = this;
-				console.log('Hi I am ' + name);
-				return instance;
+			// var LazyMan = function(name) {
+			// 	var instance = this;
+			// 	var inSleep = false;
 
-				this.sleep = function(sec) {
-					console.log('等待了' + sec + '秒');
-					return instance;
-				}
+			// 	this.sleepFirst = function(sec){
 
-				this.eat = function(name) {
-					console.log('I am eating ' + name);
-					return instance;
-				}
+			// 	}
+
+			// 	this.sleep = function(sec) {
+			// 		if (instance.inSleep) {
+			// 			setTimeout(function() {
+			// 				instance.sleep(sec);
+			// 			},1);
+			// 			return instance;
+			// 		}
+
+			// 		console.log('等待了' + sec + '秒');
+			// 		instance.inSleep = true;
+			// 		setTimeout(function() {
+			// 			instance.inSleep = false;
+			// 		}, sec * 1000);
+			// 		return instance;
+			// 	}
+
+			// 	this.eat = function(name) {
+			// 		if (instance.inSleep) {
+			// 			setTimeout(function() {
+			// 				instance.eat(name);
+			// 			},1);
+			// 			return instance;
+			// 		}
+
+			// 		console.log('I am eating ' + name + '...');
+			// 		return instance;
+			// 	}
+
+			// 	if (instance.inSleep) {
+			// 		setTimeout(function() {
+			// 			LazyMan(name);
+			// 		},1);
+			// 		return instance;
+			// 	}
+			// 	console.log('Hi I am ' + name);
+			// 	return instance;
+			// }
+
+			function LazyMan(name) {
+				var lazy = new Lazy(name);
+				lazy.init();
+				return lazy;
 			}
+
+			function Lazy(name) {
+				this.name = name;
+				this.fns = [];
+				this.init = function() {
+					var _this = this;
+					_this.print("I am " + this.name);
+					setTimeout(function() {
+						_this.next();
+					}, 0);
+				};
+				this.eat = function(food) {
+					var _this = this;
+					_this.fns.push(function() {
+						_this.print("I am eating " + food);
+						_this.next();
+					});
+					return this;
+				};
+				this.sleep = function(time) {
+					var _this = this;
+					_this.fns.push(function() {
+						setTimeout(function() {
+							_this.print("等待了" + time + "秒");
+							_this.next();
+						}, 1000 * time);
+					});
+					return this;
+				};
+				this.sleepFirst = function(time) {
+					var _this = this;
+					_this.fns.unshift(function() {
+						setTimeout(function() {
+							_this.print("等待了" + time + "秒");
+							_this.next();
+						}, 1000 * time)
+					});
+					return this;
+				};
+				this.print = function(something) {
+					console.log(something);
+				};
+				this.next = function() {
+					this.fns.length > 0 && this.fns.shift()();
+				};
+			}
+
+			// test
+			// LazyMan('Tony');
+			// LazyMan('Tony').sleep(10).eat('lunch');
+			// LazyMan('Tony').eat('lunch').sleep(10).eat('dinner');
+
+			LazyMan('Tony').eat('lunch').eat('dinner').sleepFirst(5).sleep(10).eat('junk food');
 		</script>
 	</body>
 </html>
