@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			// 实验1 在IIEF中是否可以拿到全局变量的值
+			var a = 'foo';
+			(function b() {
+				console.log('iief');
+				console.log(a);
+				a = 'bar';
+				console.log(a);
+			})();
+			// ouput iief既可以拿到全局的值,也可以对全局值进行修改
+			// iief
+			// foo
+			// bar
+
+			// 实验2 全局变量名和IIEF函数表达式名相同的情况下,还能不能拿到全局的值
+			var a = 'foo';
+			(function a() {
+				console.log('iief');
+				console.log(a);
+				a = 'bar';
+				console.log(a);
+			})();
+			// output 已经拿不到全局变量的值了,拿到的是函数表达式的名字，而且也无法对其进行修改
+			// iief
+			// ƒ a() {
+			// 	console.log('iief');
+			// 	console.log(a);
+			// 	a = 'bar';
+			// 	console.log(a);
+			// }
+			// ƒ a() {
+			// 	console.log('iief');
+			// 	console.log(a);
+			// 	a = 'bar';
+			// 	console.log(a);
+			// }
+			
+			// 实验3 在IIEF使用严格模式时,对着函数表达式名赋值会直接报错？
+			var a = 'foo';
+			(function a() {
+				'use strict';
+				console.log('iief');
+				console.log(a);
+				a = 'bar';
+				console.log(a);
+			})();
+			// output 在赋值那句话报错了 Assignment to constant variable. 表示a为只读,无法修改
+			// iief
+			// ƒ a() {
+			// 	'use strict';
+			// 	console.log('iief');
+			// 	console.log(a);
+			// 	a = 'bar';
+			// 	console.log(a);
+			// }
+			// Uncaught TypeError: Assignment to constant variable.
+			// at a (index.html:51)
+			// at index.html:53
+
+			// 实验4 使用window调用外部变量尝试赋值
+			var a = 'foo';
+			(function a() {
+				'use strict';
+				console.log('iief');
+				console.log(window.a);
+				window.a = 'bar';
+				console.log(window.a);
+			})();
+			// output 实验成功,可以使用window对象,在IIEF中调用外部变量
+			// iief
+			// foo
+			// bar
+
+			// 最终执行结果
+			var b = 10;
+			(function b(){
+			    b = 20;
+			    console.log(b); 
+			})();
+
+			// output is a function
+			// ƒ b(){
+			//     b = 20;
+			//     console.log(b); 
+			// }
+		</script>
+	</body>
+</html>

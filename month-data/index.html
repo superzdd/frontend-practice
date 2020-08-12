@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			let genMonthData = function(data) {
+				let ret = [];
+				for (let month = 1; month <= 12; month++) {
+					if (data.hasOwnProperty(month)) {
+						ret.push(data[month]);
+					} else {
+						ret.push(null);
+					}
+				}
+				return ret;
+			}
+
+			// test
+			console.log(genMonthData({
+				1: 222,
+				2: 123,
+				5: 888
+			}));
+			
+			// 网上的超简单写法
+			let obj = {1:222, 2:123, 5:888};
+			const result = Array.from({ length: 12 }).map((_, index) => obj[index + 1] || null);
+		</script>
+	</body>
+</html>
