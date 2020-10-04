@@ -14,3 +14,9 @@
 #### vtour
 
 基于krpano的经验总结
+
+
+
+#### svg-sprite-demo
+
+svg素材合成demo

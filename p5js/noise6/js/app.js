@@ -21,7 +21,7 @@ const radius = 1.5;
 
 function draw() {
 	background(0);
-	loadPixels();
+	beginShape();
 	t = frameCount / numFrames;
 
 	if (frameCount == numFrames) {
@@ -29,21 +29,13 @@ function draw() {
 	}
 
 	for (let x = 0; x < screenWidth; x++) {
-		for (let y = 0; y < screenHeight; y++) {
-			let n = noise(scale * x, scale * y, radius * Math.cos(Math.PI * t * 2));
-			// console.log(n);
-
-			let isBlack = n > 0.5;
-			let col = isBlack ? 0 : 255;
-			let i = (x * screenWidth + y) * 4;
-			pixels[i] = col;
-			pixels[i + 1] = col;
-			pixels[i + 2] = col;
-			pixels[i + 3] = 255;
-		}
+		let n = noise(scale * x, radius * Math.cos(Math.PI * t), radius * Math.sin(Math.PI * t));
+		// let n = noise(scale * x, radius * Math.cos(Math.PI * t));
+		let y = map(n, 0, 1, 0, screenHeight);
+		vertex(x, y);
 	}
 
-	updatePixels();
+	endShape();
 
 	frameCount += 1;
 }
