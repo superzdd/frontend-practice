@@ -58,4 +58,4 @@ var _default = {
 console.log('env');
 console.log(_default);
 
-exports.default = _default;
+
