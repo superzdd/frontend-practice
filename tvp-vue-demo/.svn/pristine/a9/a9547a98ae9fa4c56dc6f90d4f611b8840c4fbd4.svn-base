@@ -1,0 +1,268 @@
+<template>
+    <div id="shipmentsPage">
+        <div class="shipmentList" ref="shipmentList">
+            <div class="shipment" v-for="(item, index) in shipments" :key="index">
+                <div class="bulepoint"></div>
+                <div class="shipment-top">
+                    <div class="shipmentId">
+                        Shipment ID:
+                        <span>{{item.dn}}</span>
+                    </div>
+                    <img class="shipmentStatus" alt />
+                    <div class="createTime">{{item.createTime}}</div>
+                </div>
+                <div class="shipment-mid">
+                    <span class="from">{{item.from}}</span>
+                    <img class="arrow" src="imgs/jiantou.png" alt />
+                    <span class="to">{{item.to}}</span>
+                </div>
+                <div class="shipment-bot">
+                    <div class="shipment-bot-right">
+                        <div class="recipient">
+                            Recipient：
+                            <span>{{item.recipient}}</span>
+                        </div>
+                        <div class="pcs">
+                            Pcs：
+                            <span>{{item.pcs}}</span>
+                        </div>
+                    </div>
+                    <!--     <div class="detail-btn" @click="toDetail">
+                        <HButton :src="imgs/btn1.png"></HButton>
+                    </div>-->
+                    <img class="detail-btn" @click="toDetail(index)" src="imgs/btn1.png" alt />
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+/* import HButton from './HButton'; */
+import { getShipmentList } from '@/request/api';
+export default {
+    name: 'ShipmentsPage',
+    data() {
+        return {
+            globalData: window.store.state,
+            pageIndex: 0,
+            pageCount: 4, //请求4个显示3个
+            scrollLock: false,
+            /* logisticsState: 1, */
+            shipments: [],
+        };
+    },
+    components: {
+        /*   HButton, */
+    },
+
+    mounted() {
+        this.getList();
+        // 监听滚动
+        window.addEventListener('scroll', this.handleScroll, true);
+    },
+    // 销毁监听  (坑：移除监听事件时加true否则销毁不成功)
+    beforeDestroy() {
+        window.removeEventListener('scroll', this.handleScroll, true);
+    },
+    methods: {
+        toDetail(index) {
+            this.$emit('toDetail');
+            window.store.setShipmentsDn(this.shipments[index].dn);
+        },
+        // 滚动操作
+        handleScroll(e) {
+            //文档内容实际高度（包括超出视窗的溢出部分）
+            let scrollHeight = this.$refs.shipmentList.scrollHeight;
+            //滚动条滚动距离
+            let scrollTop = e.target.scrollTop;
+            //窗口可视范围高度
+            let clientHeight = this.$refs.shipmentList.clientHeight;
+            if (clientHeight + scrollTop >= scrollHeight - 10) {
+                console.log('get it');
+                this.getList();
+            }
+            console.log(scrollHeight, clientHeight, scrollTop);
+        },
+        //物流状态
+        getStatus() {
+            for (let index = 0; index < this.shipments.length; index++) {
+                const element = this.shipments[index].logisticsState;
+                // console.log('=================', element);
+                var shipmentStatus = document.getElementsByClassName(
+                    'shipmentStatus'
+                );
+                // console.log(shipmentStatus.length);
+                switch (element) {
+                    case 0:
+                        shipmentStatus[index].src = 'imgs/icon2.png';
+                        console.log('1111');
+                        break;
+                    case 1:
+                        shipmentStatus[index].src = 'imgs/icon3.png';
+                        console.log('2222');
+                        break;
+                    default:
+                        alert('数据异常');
+                }
+            }
+        },
+        //获取用户列表
+        async getList() {
+            let shipmentsRes = await getShipmentList({
+                driverCode: this.globalData.driverCode,
+                pageIndex: this.pageIndex,
+                pageCount: this.pageCount,
+            });
+            if (shipmentsRes.code == 0) {
+                // console.log(shipmentsRes);
+                this.shipments = this.shipments.concat(
+                    shipmentsRes.data.shipments
+                );
+                setTimeout(() => {
+                    this.getStatus();
+                }, 500);
+            }
+        },
+    },
+};
+</script>
+<style lang="less" scoped>
+#shipmentsPage {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: calc(260 / 750 * 100vw);
+    .shipmentList {
+        width: 90.67vw;
+        height: calc(1124 / 750 * 100vw);
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        overflow: auto;
+        box-sizing: border-box;
+        /*    display: flex;
+        flex-direction: column;
+        justify-content: space-between; */
+        .shipment {
+            width: 100%;
+            height: 45.33vw;
+            background-color: #fff;
+            box-shadow: 0px 6px 60px 0px rgba(36, 78, 151, 0.36);
+            border-radius: calc(24 / 750 * 100vw);
+            margin-bottom: 6.93vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .bulepoint {
+                width: 1.2vw;
+                height: 1.2vw;
+                border-radius: 50%;
+                position: absolute;
+                left: calc(39 / 750 * 100vw);
+                top: calc(55 / 750 * 100vw);
+                background-color: rgba(19, 174, 254, 1);
+            }
+            .shipment-top {
+                width: calc(585 / 750 * 100vw);
+                height: 7.33vw;
+                /* position: absolute;
+                top: 6.4vw;
+                left: 7.87vw; */
+                margin-left: calc(60 / 750 * 100vw);
+                margin-top: calc(48 / 750 * 100vw);
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                font-size: calc(24 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                font-weight: 500;
+                line-height: calc(17 / 750 * 100vw);
+                .shipmentId {
+                    width: calc(353 / 750 * 100vw);
+                    height: calc(25 / 750 * 100vw);
+                    color: rgba(68, 73, 105, 1);
+                    span {
+                        font-weight: bold;
+                    }
+                }
+                .shipmentStatus {
+                    width: calc(85.4 / 750 * 100vw);
+                    height: calc(25.2 / 750 * 100vw);
+                }
+                .createTime {
+                    width: calc(204 / 750 * 100vw);
+                    height: calc(18 / 750 * 100vw);
+                    color: rgba(68, 73, 105, 0.4);
+                }
+            }
+            .shipment-mid {
+                width: calc(547 / 750 * 100vw);
+                height: calc(33 / 750 * 100vw);
+                margin-left: calc(60 / 750 * 100vw);
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                font-size: calc(40 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                font-weight: 800;
+                color: rgba(2, 38, 109, 1);
+                line-height: calc(17 / 750 * 100vw);
+                .arrow {
+                    width: calc(196 / 750 * 100vw);
+                }
+            }
+            .shipment-bot {
+                width: calc(585 / 750 * 100vw);
+                height: calc(60 / 750 * 100vw);
+                margin-left: calc(60 / 750 * 100vw);
+                margin-bottom: calc(53 / 750 * 100vw);
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-end;
+                flex-wrap: wrap;
+                font-size: calc(24 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                font-weight: 500;
+                color: rgba(68, 73, 105, 0.7);
+                line-height: calc(17 / 750 * 100vw);
+                .shipment-bot-right {
+                    width: calc(190 / 750 * 100vw);
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    span {
+                        font-weight: bold;
+                        color: rgba(68, 73, 105, 1);
+                    }
+                    .recipient {
+                        width: 100%;
+                        height: calc(24 / 750 * 100vw);
+                    }
+                    .pcs {
+                        width: 100%;
+                        height: calc(19 / 750 * 100vw);
+                    }
+                }
+                .detail-btn {
+                    width: calc(156 / 750 * 100vw);
+                    box-shadow: 3px 5px 9px 0px rgba(139, 216, 255, 0.64);
+                    border-radius: calc(17 / 750 * 100vw);
+                    /*   height: calc(33 / 750 * 100vw);
+                    img {
+                        width: 100%;
+                    } */
+                }
+            }
+        }
+    }
+}
+</style>

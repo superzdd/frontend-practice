@@ -1,0 +1,349 @@
+<template>
+    <div id="shipmentDetailPage">
+        <div class="white-bg"></div>
+        <div class="main">
+            <div class="shipment">
+                <div class="shipment-top">
+                    <div class="shipmentId">
+                        Shipment ID:
+                        <span>{{shipment.dn}}</span>
+                    </div>
+                    <img class="shipmentStatus" alt />
+                    <!-- <div class="createTime">{{shipment.createTime}}</div> -->
+                </div>
+                <div class="shipment-mid">
+                    <span class="from">{{shipment.from}}</span>
+                    <img class="arrow" src="imgs/jiantou.png" alt />
+                    <span class="to">{{shipment.to}}</span>
+                </div>
+                <div class="shipment-bot">
+                    <div class="shipment-bot-right">
+                        <div class="recipient">
+                            Recipient：
+                            <span>{{shipment.recipient}}</span>
+                        </div>
+                        <div class="pcs">
+                            Pcs：
+                            <span>{{shipment.pcs}}</span>
+                        </div>
+                    </div>
+                    <img class="status-btn" @click="toOperation" src="imgs/btn9.png" alt />
+                </div>
+            </div>
+            <div class="main-content">
+                <van-steps direction="vertical" :active="active" :active-color="activecolor">
+                    <van-step>
+                        <p class="p1">{{shipment.createTime}}</p>
+                        <p class="p2 pickup">Pick up</p>
+                    </van-step>
+                    <!-- <div class="issue-area"> -->
+                    <van-step v-for="(item, index) in shipment.issues" :key="index">
+                        <p class="p1">2020-07-13 10:00</p>
+                        <div class="issues-img">
+                            <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+                                <van-swipe-item v-for="(i, index) in item.src" :key="index">
+                                    <img @click="ShowPic(i)" :src="i" alt />
+                                </van-swipe-item>
+                            </van-swipe>
+                        </div>
+                        <p class="p3">{{item.desc}}</p>
+                    </van-step>
+                    <!-- </div> -->
+                    <van-step>
+                        <p class="p1 delivered">{{shipment.deliveryTime}}</p>
+                        <p class="p2">Delivered</p>
+                    </van-step>
+                </van-steps>
+            </div>
+            <div class="back-btn" @click="backShipments">
+                <HButton :text="'Shipment List'"></HButton>
+            </div>
+        </div>
+        <div class="picBox" ref="picBox" @click="hiddenPic">
+            <img src ref="pic" alt />
+        </div>
+    </div>
+</template>
+<script>
+import { getShipmentDetail } from '@/request/api';
+// import { getWindowSize } from '../util/rem';
+import HButton from './HButton';
+
+export default {
+    name: 'ShipmentDetailPage',
+    data() {
+        return {
+            globalData: window.store.state,
+            shipment: [],
+            active: 3,
+            activecolor: 'rgba(19, 174, 254, 1)',
+        };
+    },
+    components: {
+        HButton,
+    },
+    created() {
+        this.getDetail();
+    },
+    methods: {
+        toOperation: function () {
+            this.$emit('toOperation', null);
+        },
+        backShipments: function () {
+            this.$emit('backShipments', null);
+        },
+        async getDetail() {
+            let detailRes = await getShipmentDetail({
+                dn: this.globalData.shipmentsDn,
+                driverCode: this.globalData.loginRes.driverCode,
+            });
+            if (detailRes.code == 0) {
+                this.shipment = detailRes.data;
+                window.store.setShipment(this.shipment);
+                this.getstatus();
+            }
+        },
+        //物流状态
+        getstatus() {
+            var shipmentStatus = document.getElementsByClassName(
+                'shipmentStatus'
+            )[0];
+            switch (this.globalData.shipment.logisticsState) {
+                case 0:
+                    shipmentStatus.src = 'imgs/icon2.png';
+                    console.log('1111');
+                    break;
+                case 1:
+                    shipmentStatus.src = 'imgs/icon3.png';
+                    console.log('2222');
+                    break;
+                default:
+                    alert('数据异常');
+            }
+        },
+        ShowPic(src) {
+            console.log('2222');
+            console.log(src);
+            this.$refs.picBox.style.display = 'block';
+            this.$refs.pic.src = src;
+            // this.$refs.picBox.style.width = getWindowSize().width;
+            // this.$refs.picBox.style.height = getWindowSize().height;
+        },
+        hiddenPic() {
+            this.$refs.picBox.style.display = 'none';
+            // this.$refs.picBox.style.width = getWindowSize().width;
+            // this.$refs.picBox.style.height = getWindowSize().height;
+        },
+    },
+};
+</script>
+<style lang="less" scoped>
+#shipmentDetailPage {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: calc(253 / 750 * 100vw);
+    .white-bg {
+        height: calc(1100 / 750 * 100vw);
+        // height: 71.47%;
+        width: 100%;
+        position: absolute;
+        // bottom: 0;
+        top: calc(187 / 750 * 100vw);
+        left: 0;
+        background-color: #ecf0f5;
+    }
+    .picBox {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        display: none;
+        transition-duration: 0.5s;
+        background-color: rgba(0, 0, 0, 0.8);
+        img {
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+    .main {
+        width: calc(680 / 750 * 100vw);
+        height: calc(1239.3 / 750 * 100vw);
+        position: absolute;
+        // top: 16.44%;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        transform-origin: 50% 0%;
+        background-color: #fff;
+        box-shadow: 0px 6px 60px 0px rgba(36, 78, 151, 0.36);
+        border-radius: calc(24 / 750 * 100vw);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .shipment {
+            width: calc(600 / 750 * 100vw);
+            height: calc(310 / 750 * 100vw);
+            background-color: #fff;
+            margin: 0 auto;
+            border-bottom: 1px solid rgba(136, 139, 157, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .shipment-top {
+                width: calc(585 / 750 * 100vw);
+                height: calc(25.2 / 750 * 100vw);
+                margin-top: calc(70 / 750 * 100vw);
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                font-size: calc(24 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                font-weight: 500;
+                line-height: calc(17 / 750 * 100vw);
+                .shipmentId {
+                    width: calc(353 / 750 * 100vw);
+                    height: calc(25 / 750 * 100vw);
+                    color: rgba(68, 73, 105, 1);
+                    span {
+                        font-weight: bold;
+                    }
+                }
+                .shipmentStatus {
+                    width: calc(85.4 / 750 * 100vw);
+                    height: calc(25.2 / 750 * 100vw);
+                }
+                .createTime {
+                    width: calc(204 / 750 * 100vw);
+                    height: calc(18 / 750 * 100vw);
+                    color: rgba(68, 73, 105, 0.4);
+                }
+            }
+            .shipment-mid {
+                width: calc(547 / 750 * 100vw);
+                height: calc(33 / 750 * 100vw);
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                font-size: calc(40 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                font-weight: 800;
+                color: rgba(2, 38, 109, 1);
+                line-height: calc(17 / 750 * 100vw);
+                .arrow {
+                    width: calc(196 / 750 * 100vw);
+                }
+            }
+            .shipment-bot {
+                width: calc(585 / 750 * 100vw);
+                height: calc(60 / 750 * 100vw);
+                margin-bottom: calc(32 / 750 * 100vw);
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-end;
+                flex-wrap: wrap;
+                font-size: calc(24 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                font-weight: 500;
+                color: rgba(68, 73, 105, 0.7);
+                line-height: calc(17 / 750 * 100vw);
+                .shipment-bot-right {
+                    width: calc(190 / 750 * 100vw);
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    span {
+                        font-weight: bold;
+                        color: rgba(68, 73, 105, 1);
+                    }
+                    .recipient {
+                        width: 100%;
+                        height: calc(24 / 750 * 100vw);
+                    }
+                    .pcs {
+                        width: 100%;
+                        height: calc(19 / 750 * 100vw);
+                    }
+                }
+                .status-btn {
+                    width: calc(156 / 750 * 100vw);
+                    box-shadow: 3px 5px 9px 0px rgba(139, 216, 255, 0.64);
+                    border-radius: calc(17 / 750 * 100vw);
+                }
+            }
+        }
+        .main-content {
+            width: calc(603 / 750 * 100vw);
+            height: calc(816 / 750 * 100vw);
+            margin-top: calc(56 / 750 * 100vw);
+            margin-left: calc(32 / 750 * 100vw);
+            overflow: auto;
+            p {
+                font-size: calc(24 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                line-height: calc(17 / 750 * 100vw);
+                font-weight: 500;
+                color: rgba(140, 142, 159, 1);
+            }
+            .pickup {
+                margin-bottom: calc(61 / 750 * 100vw);
+            }
+            /*   .delivered {
+                margin-top: calc(61 / 750 * 100vw);
+            } */
+            .p1 {
+            }
+            .p2 {
+                font-weight: bold;
+                color: rgba(68, 73, 105, 1);
+                margin-top: calc(21 / 750 * 100vw);
+            }
+            .p3 {
+                font-size: calc(18 / 750 * 100vw);
+                color: rgba(136, 139, 157, 1);
+                line-height: calc(34 / 750 * 100vw);
+                margin-top: calc(34 / 750 * 100vw);
+            }
+            .issues-img {
+                width: calc(560 / 750 * 100vw);
+                height: calc(243 / 750 * 100vw);
+                margin-top: calc(27 / 750 * 100vw);
+                overflow: hidden;
+                box-sizing: border-box;
+                .my-swipe .van-swipe-item {
+                    width: 100%;
+                    height: 100%;
+                    img {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        .back-btn /deep/ .btn-borders {
+            width: calc(620 / 750 * 100vw);
+            height: calc(80 / 750 * 100vw);
+            border-radius: calc(24 / 750 * 100vw);
+            text-align: center;
+            color: #ffffff;
+            font-family: Source Han Sans CN;
+            font-size: 3.2vw;
+            margin-left: calc(30 / 750 * 100vw);
+            margin-bottom: calc(32 / 750 * 100vw);
+            background: linear-gradient(to right, #076c98, #01266d);
+        }
+    }
+}
+</style>

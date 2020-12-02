@@ -1,0 +1,408 @@
+<template>
+    <div id="uploadIssue">
+        <div
+            class="main"
+            :style="{transform: 'translateX(-50%)  scale(' + globalData.pageScale + ')'}"
+        >
+            <div class="shipment">
+                <div class="bulepoint"></div>
+                <div class="shipment-top">
+                    <div class="shipmentId">
+                        Shipment ID:
+                        <span>{{globalData.shipment.dn}}</span>
+                    </div>
+                    <img class="shipmentStatus" alt />
+                    <div class="createTime">{{globalData.shipment.createTime}}</div>
+                </div>
+                <div class="shipment-mid">
+                    <span class="from">{{globalData.shipment.from}}</span>
+                    <img class="arrow" src="imgs/jiantou.png" alt />
+                    <span class="to">{{globalData.shipment.to}}</span>
+                </div>
+                <div class="shipment-bot">
+                    <div class="shipment-bot-right">
+                        <div class="recipient">
+                            <span>Recipient:</span>
+                            <span class="shipmsg">{{globalData.shipment.recipient}}</span>
+                        </div>
+                        <div class="pcs">
+                            <span>Pcs:</span>
+                            <span class="shipmsg">{{globalData.shipment.pcs}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-mid">
+                <div class="point"></div>
+                <div class="issue-report">
+                    <span class="rep-title">Isuue Report</span>
+                    <div class="rep-pic-box">
+                        <van-uploader
+                            v-model="fileList"
+                            :max-count="6"
+                            :upload-icon="uploadIconSrc"
+                        />
+                    </div>
+                </div>
+                <textarea
+                    class="issue-desc"
+                    placeholder="Click here to enter the issue description"
+                    v-model="desc"
+                ></textarea>
+            </div>
+            <div class="main-bot">
+                <div class="back-btn">
+                    <HButton :text="'Save'" @click="uploadIssue"></HButton>
+                </div>
+                <div class="back-btn">
+                    <HButton :text="'Back'" @click="backOperation"></HButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import HButton from './HButton';
+import { shipmentIssue } from '@/request/api';
+// import axios from 'axios';
+
+export default {
+    name: 'UploadIssuePage',
+    data() {
+        return {
+            globalData: window.store.state,
+            uploadIconSrc: 'imgs/icon14.png',
+            desc: '',
+            fileList: [
+                // Uploader 根据文件后缀来判断是否为图片文件
+                // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+            ],
+        };
+    },
+    components: {
+        HButton,
+    },
+    mounted() {
+        this.getstatus();
+    },
+    methods: {
+        async uploadIssue() {
+            if (this.fileList.length > 0 && this.fileList.length <= 6) {
+                let issueRes = await shipmentIssue();
+                console.log(issueRes);
+            }
+        },
+        backOperation() {
+            this.$emit('backOperation', null);
+        },
+        /*  uploadIssue() {
+            if (this.fileList.length === 0) {
+                return;
+            }
+            const { file } = this.fileList[0];
+            axios({
+                url:
+                    'https://server.zpwan-yz.com/blogManage/filemodule/web/upload',
+                method: 'post',
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    token:
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJBUFAiLCJ1c2VyX2lkIjoienB3YW4iLCJpc3MiOiJTZXJ2aWNlIiwiZXhwIjoxNTk2NDMxNjY1LCJpYXQiOjE1OTYzNDUyNjV9._FTAx8OC43tIFOicpxb-SzOpkDJbcHqAjW4xjHq5z3I',
+                },
+                data: {
+                    file: file,
+                },
+                transformRequest: [
+                    function (oldData) {
+                        var form = new FormData();
+                        for (let item in oldData) {
+                            form.append(item, oldData[item]);
+                        }
+                        return form;
+                    },
+                ],
+            }).then(res=>{
+                console.log(res)
+            });
+        }, */
+        //物流状态
+        getstatus() {
+            var shipmentStatus = document.getElementsByClassName(
+                'shipmentStatus'
+            )[0];
+            switch (this.globalData.shipment.logisticsState) {
+                case 0:
+                    shipmentStatus.src = 'imgs/icon2.png';
+                    console.log('1111');
+                    break;
+                case 1:
+                    shipmentStatus.src = 'imgs/icon3.png';
+                    console.log('2222');
+                    break;
+                default:
+                    alert('数据异常');
+            }
+        },
+    },
+};
+</script>
+<style lang="less" >
+#uploadIssue {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    // top: calc(251 / 750 * 100vw);
+    top: 5.31%;
+    .main {
+        width: calc(680 / 750 * 100vw);
+        height: calc(1109.3 / 750 * 100vw);
+        position: absolute;
+        // top: calc(251 / 750 * 100vw);
+        // top: 16.31%;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: transparent;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .shipment {
+            width: 100%;
+            height: calc(383.3 / 750 * 100vw);
+            box-shadow: 0px 6px 60px 0px rgba(36, 78, 151, 0.36);
+            border-radius: calc(24 / 750 * 100vw);
+            background-color: #fff;
+            border-bottom: 1px solid rgba(136, 139, 157, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            position: relative;
+            .bulepoint {
+                width: 1.2vw;
+                height: 1.2vw;
+                border-radius: 50%;
+                position: absolute;
+                left: calc(49 / 750 * 100vw);
+                top: calc(58 / 750 * 100vw);
+                background-color: rgba(19, 174, 254, 1);
+            }
+            .shipment-top {
+                width: calc(585 / 750 * 100vw);
+                height: 7.33vw;
+                // margin-top: calc(51 / 750 * 100vw);
+                margin-left: calc(69 / 750 * 100vw);
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                font-size: calc(24 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                font-weight: 500;
+                line-height: calc(17 / 750 * 100vw);
+                .shipmentId {
+                    width: calc(353 / 750 * 100vw);
+                    height: calc(25 / 750 * 100vw);
+                    color: rgba(68, 73, 105, 1);
+                    span {
+                        font-weight: bold;
+                    }
+                }
+                .shipmentStatus {
+                    width: calc(85.4 / 750 * 100vw);
+                    height: calc(25.2 / 750 * 100vw);
+                }
+                .createTime {
+                    width: calc(204 / 750 * 100vw);
+                    height: calc(18 / 750 * 100vw);
+                    color: rgba(68, 73, 105, 0.4);
+                }
+            }
+            .shipment-mid {
+                width: calc(547 / 750 * 100vw);
+                height: calc(33 / 750 * 100vw);
+                margin-left: calc(69 / 750 * 100vw);
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                font-size: calc(40 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                font-weight: 800;
+                color: rgba(2, 38, 109, 1);
+                line-height: calc(17 / 750 * 100vw);
+                .arrow {
+                    width: calc(196 / 750 * 100vw);
+                }
+            }
+            .shipment-bot {
+                width: calc(585 / 750 * 100vw);
+                height: calc(60 / 750 * 100vw);
+                // margin-bottom: calc(54 / 750 * 100vw);
+                margin-left: calc(69 / 750 * 100vw);
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-end;
+                flex-wrap: wrap;
+                font-size: calc(24 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                font-weight: 500;
+                color: rgba(68, 73, 105, 0.7);
+                line-height: calc(17 / 750 * 100vw);
+                .shipment-bot-right {
+                    width: calc(190 / 750 * 100vw);
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    .shipmsg {
+                        font-weight: bold;
+                        color: rgba(68, 73, 105, 1);
+                        margin-left: calc(16 / 750 * 100vw);
+                    }
+                    .recipient {
+                        width: 100%;
+                        height: calc(24 / 750 * 100vw);
+                    }
+                    .pcs {
+                        width: 100%;
+                        height: calc(19 / 750 * 100vw);
+                    }
+                }
+            }
+        }
+        .main-mid {
+            width: 100%;
+            // height: calc(424 / 750 * 100vw);
+            margin-bottom: calc(20 / 750 * 100vw);
+            box-shadow: 0px 6px 60px 0px rgba(36, 78, 151, 0.36);
+            border-radius: calc(24 / 750 * 100vw);
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            .point {
+                width: 1.2vw;
+                height: 1.2vw;
+                border-radius: 50%;
+                position: absolute;
+                left: calc(49 / 750 * 100vw);
+                top: calc(48 / 750 * 100vw);
+                background-color: rgba(19, 174, 254, 1);
+            }
+            .issue-report {
+                width: calc(568 / 750 * 100vw);
+                // height: calc(182.7 / 750 * 100vw);
+                margin: 0 auto;
+                margin-top: calc(42 / 750 * 100vw);
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .rep-title {
+                    margin-left: calc(11 / 750 * 100vw);
+                    font-size: calc(24 / 750 * 100vw);
+                    font-family: Source Han Sans CN;
+                    font-weight: 800;
+                    color: rgba(68, 73, 105, 1);
+                    line-height: calc(17 / 750 * 100vw);
+                }
+                .rep-pic-box {
+                    width: 100%;
+                    margin-top: calc(17 / 750 * 100vw);
+                    // height: calc(140.7 / 750 * 100vw);
+                    // overflow: auto;
+                    .van-uploader {
+                        width: 100%;
+                        height: 100%;
+                        .van-uploader__wrapper {
+                            width: 100%;
+                            height: 100%;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+                            flex-wrap: wrap;
+                            .van-uploader__preview,
+                            .van-image,
+                            .van-uploader__upload {
+                                width: calc(147.2 / 750 * 100vw);
+                                // height: 100%;
+                                height: calc(140.7 / 750 * 100vw);
+                            }
+
+                            .van-uploader__upload-icon {
+                                /*  width: calc(42.6 / 750 * 100vw); */
+                                font-size: calc(42.6 / 750 * 100vw);
+                            }
+                            .van-uploader__preview-delete {
+                                width: calc(30 / 750 * 100vw);
+                                height: calc(30 / 750 * 100vw);
+                                position: absolute;
+                                right: 0;
+                                top: 0;
+                                border-radius: 0%;
+                                background-color: transparent;
+                            }
+                            .van-uploader__preview-delete-icon {
+                                width: 100%;
+                                position: absolute;
+                                right: 0;
+                                top: 0;
+                                font-size: calc(30 / 750 * 100vw);
+                                background-image: url('../../public/imgs/icon13.png');
+                                background-size: cover;
+                            }
+                        }
+                    }
+                }
+            }
+            .issue-desc {
+                width: calc(568 / 750 * 100vw);
+                height: calc(130 / 750 * 100vw);
+                margin: 0 auto;
+                margin-bottom: calc(26 / 750 * 100vw);
+                border: 0;
+                border-radius: calc(10 / 750 * 100vw);
+                // text-indent: calc(55 / 750 * 100vw);
+                text-indent: 10%;
+                background: rgba(235, 238, 244, 1);
+                font-size: calc(24 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                font-weight: 500;
+                color: rgba(136, 139, 157, 1);
+            }
+        }
+        .main-bot {
+            width: 100%;
+            height: calc(178 / 750 * 100vw);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .btn-borders {
+                width: calc(681 / 750 * 100vw);
+                height: calc(80 / 750 * 100vw);
+                border-radius: calc(24 / 750 * 100vw);
+                text-align: center;
+                color: #ffffff;
+                font-family: Source Han Sans CN;
+                font-size: 3.2vw;
+                margin: 0 auto;
+                background: rgba(95, 200, 254, 1);
+            }
+        }
+    }
+}
+input[type='text']:focus {
+    text-align: left;
+}
+// 文本框提示居中
+.issue-desc::-webkit-input-placeholder {
+    // text-align: center;
+    line-height: calc(130 / 750 * 100vw);
+}
+</style>

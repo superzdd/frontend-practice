@@ -1,0 +1,28 @@
+import axios from './axios';
+
+// 司机登录
+export const driverLogin = login => axios.post(`/driver/login`, login);
+//司机登出
+export const driverSignOut = logout => axios.post(`/driver/logout`, logout);
+//司机信息更新
+export const driverInfo = info =>
+    axios.post(`/driver/${info.driverCode}`, info.nickname, info.sex);
+// 获取验证码
+export const getValidCode = () => axios.get(`/validCode`);
+
+// 获取运单列表
+export const getShipmentList = shipmentList =>
+    axios.get(`/shipments`, shipmentList);
+
+// 获取运单详情
+export const getShipmentDetail = info =>
+    axios.get(`/shipment/${info.dn}`, info.driverCode);
+
+// 运单更新-揽件
+export const shipmentPackage = () => axios.post(`/shipment/pickingup`);
+
+// 运单更新-送达
+export const shipDelivered = () => axios.post(`/shipment/completion`);
+
+// 运单更新-事件通知
+export const shipmentIssue = () => axios.post(`/shipment/issue`);

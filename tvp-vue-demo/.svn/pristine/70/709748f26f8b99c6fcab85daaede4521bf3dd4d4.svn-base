@@ -1,0 +1,67 @@
+<template>
+    <!-- 抽出的公共背景部分 -->
+    <div id="bg">
+        <div class="scan-qrcode" node-type="qr-btn">
+            <input id="scan-btn" node-type="jsbridge" type="file" name="myPhoto" />
+        </div>
+        <img class="title" src="imgs/title.png" alt />
+        <img class="user" @click="toInfo" src="imgs/icon5.png" alt />
+    </div>
+</template>
+<script>
+export default {
+    name: 'bg',
+    mounted() {
+        //初始化扫描二维码按钮，传入自定义的 node-type 属性
+        $(function () {
+            Qrcode.init($('[node-type=qr-btn]'));
+        });
+    },
+    methods: {
+        toInfo: function () {
+            this.$emit('toInfo', null);
+            console.log('123124414');
+        },
+    },
+};
+</script>
+<style lang="less" scoped>
+#bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    .scan-qrcode {
+        width: calc(40 / 750 * 100vw);
+        height: calc(40 / 750 * 100vw);
+        position: absolute;
+        left: calc(46 / 750 * 100vw);
+        top: calc(43 / 750 * 100vw);
+        // background-color: #fff;
+        background-image: url('../../public/imgs/icon17.png');
+        background-size: cover;
+        input[node-type='jsbridge'] {
+            visibility: hidden;
+        }
+        #scan-btn {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .title {
+        width: calc(345 / 750 * 100vw);
+        position: absolute;
+        // top: calc(139 / 750 * 100vw);
+        top: 5.03%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .user {
+        width: calc(42 / 750 * 100vw);
+        position: absolute;
+        right: calc(40 / 750 * 100vw);
+        top: calc(39 / 750 * 100vw);
+    }
+}
+</style>

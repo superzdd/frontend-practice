@@ -1,0 +1,175 @@
+<template>
+    <div id="app">
+        <img class="app-bg" src="imgs/bg1.png" alt />
+        <bg v-show="bgShow" @toInfo="toInfo"></bg>
+        <LoginPage
+            v-if="loginShow"
+            @toShipments="toShipments"
+            @toDetail="toDetail"
+            @toOthers="toOthers"
+        ></LoginPage>
+        <ShipmentsPage v-if="shipmentsShow" @toDetail="toDetail"></ShipmentsPage>
+        <ShipmentDetailPage
+            v-if="detailShow"
+            @backShipments="backShipments"
+            @toOperation="toOperation"
+        ></ShipmentDetailPage>
+        <ShipmentOperationPage
+            v-if="operationShow"
+            @toIssue="toIssue"
+            @backShipDetail="backShipDetail"
+        ></ShipmentOperationPage>
+        <UploadIssuePage v-if="uploadIssueShow" @backOperation="backOperation"></UploadIssuePage>
+        <DriverInfo v-show="infoShow" @back="back" @signOut="signOut"></DriverInfo>
+        <OtherShipmentPage v-if="otherShow" @toshipList="toshipList"></OtherShipmentPage>
+    </div>
+</template>
+
+<script>
+/* import './util/rem'; */
+import { getWindowSize } from './util/rem';
+import LoginPage from './components/LoginPage';
+import ShipmentsPage from './components/ShipmentsPage';
+import ShipmentDetailPage from './components/ShipmentDetailPage';
+import ShipmentOperationPage from './components/ShipmentOperationPage';
+import UploadIssuePage from './components/UploadIssuePage';
+import bg from './components/BG';
+import DriverInfo from './components/DriverInfo';
+import OtherShipmentPage from './components/OtherShipmentPage';
+
+export default {
+    name: 'App',
+    components: {
+        LoginPage,
+        ShipmentsPage,
+        ShipmentDetailPage,
+        ShipmentOperationPage,
+        UploadIssuePage,
+        DriverInfo,
+        bg,
+        OtherShipmentPage,
+    },
+    data() {
+        return {
+            globalData: window.store.state,
+            loginShow: true,
+            otherShow: false,
+            shipmentsShow: false,
+            operationShow: false,
+            detailShow: false,
+            uploadIssueShow: false,
+            bgShow: false,
+            infoShow: false,
+            shipIndex: 0,
+        };
+    },
+    created() {
+        //将关键字存入仓库
+        let dn = this.getUrlParam('dn');
+        window.store.setDn(dn);
+        //将屏幕宽高比例存入仓库
+        let pageScale = (
+            getWindowSize().height /
+            getWindowSize().width /
+            (1539 / 750)
+        ).toFixed(2);
+        // 缩放尺寸
+        console.log(pageScale);
+        window.store.setPageScale(pageScale);
+    },
+    methods: {
+        toShipments: function () {
+            this.loginShow = false;
+            this.bgShow = true;
+            this.shipmentsShow = true;
+        },
+        toDetail: function (index) {
+            this.shipmentsShow = false;
+            this.detailShow = true;
+            this.shipIndex = index;
+        },
+        toOperation: function () {
+            this.detailShow = false;
+            this.operationShow = true;
+        },
+        backShipments: function () {
+            this.detailShow = false;
+            this.shipmentsShow = true;
+        },
+        backOperation() {
+            this.uploadIssueShow = false;
+            this.operationShow = true;
+        },
+        backShipDetail() {
+            this.operationShow = false;
+            this.detailShow = true;
+        },
+        toOthers() {
+            this.loginShow = false;
+            this.otherShow = true;
+        },
+        toshipList() {
+            this.otherShow = false;
+            this.shipmentsShow = true;
+        },
+        toIssue: function () {
+            this.operationShow = false;
+            this.uploadIssueShow = true;
+        },
+        toInfo: function () {
+            this.infoShow = true;
+        },
+        back: function () {
+            this.infoShow = false;
+        },
+        signOut() {
+            this.loginShow = true;
+            this.shipmentsShow = false;
+            this.detailShow = false;
+            this.infoShow = false;
+            this.uploadIssueShow = false;
+        },
+        //获取链接参数
+        getUrlParam: function (name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+            var r = window.location.search.substr(1).match(reg);
+            if (r) {
+                return decodeURI(r[2]);
+            }
+            return null;
+        },
+    },
+};
+</script>
+
+<style lang="less">
+* {
+    margin: 0;
+    padding: 0;
+}
+html,
+body {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    .app-bg {
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+    }
+}
+</style>

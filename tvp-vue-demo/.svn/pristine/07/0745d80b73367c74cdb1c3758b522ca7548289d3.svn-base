@@ -1,0 +1,73 @@
+import axios from 'axios';
+
+axios.defaults.timeout = 20000;
+// axios.defaults.baseURL = 'http://192.168.3.245:8080/';
+// axios.defaults.baseURL = 'https://h5.wx365info.com';
+// axios.defaults.baseURL = 'http://r1se.herdsric.com';
+axios.defaults.baseURL = '';
+axios.defaults.withCredentials = true;
+
+let requests = [];
+
+function createRequestId(config) {
+    return `baseURL=${config.baseURL}&url=${config.url}&method=${config.method}`;
+}
+
+function removeRequest(config) {
+    const req = requests.find(req => {
+        return req.id === createRequestId(config);
+    });
+    if (req) {
+        req.cancel('request has been canceled');
+        requests.splice(req, 1);
+    }
+}
+
+// function showToast(message) {
+//     Toast({ message, duration: 1500, forbidClick: true });
+// }
+
+axios.interceptors.request.use(
+    config => {
+        // Toast.loading({ duration: 0 });
+        removeRequest(config);
+        config.cancelToken = new axios.CancelToken(cancel => {
+            requests.push({ id: createRequestId(config), cancel });
+        });
+        return config;
+    },
+    error => {
+        Promise.reject(error);
+    }
+);
+
+axios.interceptors.response.use(
+    response => {
+        // Toast.clear();
+        removeRequest(response.config);
+        // const { code, data } = response.data;
+        return response.data;
+        // if (code === 0) {
+        //     return data;
+        // } else {
+        //     if (code == 301 || code == 302 || code == 303 || code == 304) {
+        //         return code;
+        //     }
+        //     const msg = errMsg.get(code);
+        //     msg ? showToast(msg) : showToast('请求失败，请稍后再试');
+        //     return Promise.reject(code);
+        // }
+    },
+    error => {
+        // Toast.clear();
+        /*  if (window.store.state.isSendImage) {
+            console.log(`response fuckkkkkk`);
+            return 'fuck';
+        } */
+        console.log(error);
+        // showToast('请求失败，请稍后再试');
+        return Promise.reject(error);
+    }
+);
+
+export default axios;

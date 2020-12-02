@@ -1,0 +1,193 @@
+<template>
+    <div id="driverInfo">
+        <div class="main">
+            <div class="avatar">
+                <img src="imgs/touxiang.png" alt />
+            </div>
+            <img class="back" @click="back" src="imgs/icon16.png" alt />
+            <img class="sign-out" src="imgs/btn3.png" @click="signOut" alt />
+            <form action class="main-content">
+                <div class="content-part">
+                    <label for="id">ID:</label>
+                    <input type="text" name="id" id="id" value="18918669220" readonly="true" />
+                </div>
+                <div class="content-part">
+                    <label for="name">Name:</label>
+                    <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        v-model="nameValue"
+                        @focus="inputFoucs"
+                        @blur="inputBlur"
+                    />
+                    <img class="reset" src="imgs/icon4.png" @click="resetName" alt />
+                </div>
+                <div class="content-part">
+                    <label for="sex">Sex:</label>
+                    <input
+                        type="text"
+                        name="sex"
+                        id="sex"
+                        v-model="sexValue"
+                        @focus="inputFoucs"
+                        @blur="inputBlur"
+                    />
+                    <img class="reset" src="imgs/icon4.png" @click="resetSex" alt />
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+<script>
+import { driverSignOut, driverInfo } from '@/request/api';
+export default {
+    name: 'DriverInfo',
+    data() {
+        return {
+            globalData: window.store.state,
+            nameValue: 'Lark',
+            sexValue: 'man',
+        };
+    },
+    components: {},
+    methods: {
+        //返回
+        back() {
+            this.$emit('back', null);
+        },
+        //司机登出
+        async signOut() {
+            let signOutRes = await driverSignOut({
+                driverCode: this.globalData.loginRes.driverCode,
+            });
+            this.$emit('signOut', null);
+            console.log(signOutRes);
+            //清除登录信息
+        },
+
+        inputFoucs() {
+            this.isFocus = true;
+        },
+        inputBlur() {
+            this.isFocus = false;
+            this.resetPage();
+            //司机信息更新
+            if (this.nameValue != 'Lark' || this.sexValue != 'man') {
+                //name或sex有改动时post
+                let infoRes = driverInfo({
+                    driverCode: this.globalData.loginRes.driverCode,
+                    nickname: this.globalData.loginRes.nickname,
+                    sex: this.globalData.loginRes.sex,
+                });
+                console.log(infoRes);
+            }
+        },
+        resetPage: function () {
+            if (this.timeout) {
+                clearTimeout(this.timeout);
+                this.timeout = null;
+            }
+            this.timeout = setTimeout(function () {
+                if (!this.isFocus) {
+                    window.scroll(0, 0);
+                }
+                this.timeout = null;
+            }, 500);
+        },
+        resetName() {
+            var name = document.getElementById('name');
+            name.focus();
+        },
+        resetSex() {
+            var sex = document.getElementById('sex');
+            sex.focus();
+        },
+    },
+};
+</script>
+<style lang="less" scoped>
+#driverInfo {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    .main {
+        width: calc(680 / 750 * 100vw);
+        height: calc(329 / 750 * 100vw);
+        background: rgba(255, 255, 255, 1);
+        border-radius: calc(24 / 750 * 100vw);
+        position: absolute;
+        top: calc(251 / 750 * 100vw);
+        left: 50%;
+        transform: translate(-50%);
+        .avatar {
+            width: calc(164 / 750 * 100vw);
+            height: calc(164 / 750 * 100vw);
+            position: absolute;
+            top: calc(-82 / 750 * 100vw);
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid rgba(255, 255, 255, 1);
+            border-radius: 50%;
+            img {
+                width: 100%;
+            }
+        }
+
+        .back {
+            width: calc(21 / 750 * 100vw);
+            position: absolute;
+            left: calc(28 / 750 * 100vw);
+            top: calc(24 / 750 * 100vw);
+        }
+        .sign-out {
+            width: calc(114 / 750 * 100vw);
+            position: absolute;
+            right: calc(17 / 750 * 100vw);
+            top: calc(23 / 750 * 100vw);
+        }
+        .main-content {
+            width: calc(411 / 750 * 100vw);
+            height: calc(121 / 750 * 100vw);
+            position: absolute;
+            top: calc(130 / 750 * 100vw);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .content-part {
+                width: 100%;
+                height: calc(24 / 750 * 100vw);
+                font-size: calc(24 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                font-weight: 500;
+                position: relative;
+                label {
+                    color: rgba(68, 73, 105, 1);
+                }
+                input {
+                    height: 100%;
+                    width: calc(222 / 750 * 100vw);
+                    color: rgba(68, 73, 105, 0.68);
+                    position: absolute;
+                    top: 0;
+                    left: calc(189 / 750 * 100vw);
+                    outline-style: none;
+                    border: 0;
+                    box-sizing: border-box;
+                }
+                .reset {
+                    width: calc(20 / 750 * 100vw);
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+            }
+        }
+    }
+}
+</style>

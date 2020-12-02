@@ -1,0 +1,64 @@
+<template>
+    <div id="messageBox">
+        <div class="main">
+            <img class="err-icon" src="imgs/icon15.png" alt />
+            <p>{{msg}}</p>
+            <HButton :text="'Confirm'"></HButton>
+        </div>
+    </div>
+</template>
+<script>
+import HButton from './HButton';
+export default {
+    name: 'MessageBox',
+    data() {
+        return {
+            msg: '',
+        };
+    },
+    components: { HButton },
+    methods: {},
+};
+</script>
+<style lang="less" >
+#messageBox {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    .main {
+        width: calc(684 / 750 * 100vw);
+        height: calc(574 / 750 * 100vw);
+        background: rgba(255, 255, 255, 1);
+        border-radius: calc(24 / 750 * 100vw);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        .err-icon {
+            width: calc(75 / 750 * 100vw);
+            position: absolute;
+            left: 50%;
+            top: calc(133 / 750 * 100vw);
+            transform: translateX(-50%);
+        }
+        .btn-borders {
+            width: calc(542 / 750 * 100vw);
+            height: calc(80 / 750 * 100vw);
+            background: linear-gradient(to right, #076c98, #01266d);
+            font-size: calc(24 / 750 * 100vw);
+            font-family: Source Han Sans CN;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 1);
+            line-height: calc(36 / 750 * 100vw);
+            border-radius: calc(24 / 750 * 100vw);
+            position: absolute;
+            left: 50%;
+            top: calc(383 / 750 * 100vw);
+            transform: translateX(-50%);
+        }
+    }
+}
+</style>

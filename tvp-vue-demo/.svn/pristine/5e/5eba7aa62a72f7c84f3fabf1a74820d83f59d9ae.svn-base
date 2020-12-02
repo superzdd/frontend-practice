@@ -1,0 +1,25 @@
+import Vue from 'vue';
+import App from './App.vue';
+// eslint-disable-next-line no-unused-vars
+import createjs from './util/soundjs';
+// eslint-disable-next-line no-unused-vars
+import store from './util/store.js';
+// eslint-disable-next-line no-unused-vars
+const vConsole = require('./util/vconsole.js');
+import { Step, Steps, Uploader, Swipe, SwipeItem } from 'vant';
+Vue.use(Step);
+Vue.use(Steps);
+Vue.use(Uploader);
+Vue.use(Swipe);
+Vue.use(SwipeItem);
+import 'vant/lib/index.css';
+
+/* import EXIF from 'exif-js';
+Vue.prototype.EXIF = EXIF; */
+
+require('./util/alert.js');
+Vue.config.productionTip = false;
+
+new Vue({
+    render: h => h(App),
+}).$mount('#app');

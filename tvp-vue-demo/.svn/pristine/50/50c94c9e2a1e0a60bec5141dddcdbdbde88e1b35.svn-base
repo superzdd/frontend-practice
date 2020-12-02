@@ -1,0 +1,150 @@
+<template>
+    <div id="otherShipment">
+        <div class="main">
+            <div class="main-top">
+                <img class="logo" src="imgs/logo.png" alt />
+            </div>
+            <div class="main-bot">
+                <img class="icon" src="imgs/icon1.png" alt />
+                <span>This</span>
+                <span>order</span>
+                <span>is</span>
+                <span>not</span>
+                <span>yours.</span>
+            </div>
+        </div>
+        <div class="btn-box">
+            <div class="qr-btn" node-type="qr-btn">
+                <div>Scan again</div>
+                <input id="scan-btn" node-type="jsbridge" type="file" name="myPhoto" />
+            </div>
+            <HButton :text="'Check order'" @click="toshipList"></HButton>
+        </div>
+    </div>
+</template>
+<script>
+import HButton from './HButton';
+
+export default {
+    name: 'OtherShipment',
+    components: { HButton },
+    mounted() {
+        //初始化扫描二维码按钮，传入自定义的 node-type 属性
+        $(function () {
+            Qrcode.init($('[node-type=qr-btn]'));
+        });
+    },
+    methods: {
+        toshipList() {
+            this.$emit('toshipList');
+        },
+    },
+};
+</script>
+<style lang="less" >
+#otherShipment {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: calc(24 / 750 * 100vw);
+    font-family: Source Han Sans CN;
+    font-weight: 500;
+    color: rgba(118, 118, 118, 1);
+    .main {
+        width: calc(686 / 750 * 100vw);
+        height: calc(765 / 750 * 100vw);
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0px 6px 60px 0px rgba(36, 78, 151, 0.36);
+        border-radius: calc(24 / 750 * 100vw);
+        position: absolute;
+        // top: calc(251 / 750 * 100vw);
+        top: 15.31%;
+        left: 50%;
+        transform: translateX(-50%);
+        .main-top {
+            width: calc(575 / 750 * 100vw);
+            height: calc(186 / 750 * 100vw);
+            // margin: 0 auto;
+            // margin-top: calc(133 / 750 * 100vw);
+            top: 17.39%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
+            .logo {
+                width: calc(357 / 750 * 100vw);
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+        .main-bot {
+            width: calc(296 / 750 * 100vw);
+            height: calc(27 / 750 * 100vw);
+            // margin: 0 auto;
+            position: absolute;
+            top: calc(463 / 750 * 100vw);
+            left: 50%;
+            transform: translateX(-50%);
+            // margin-top: calc(145 / 750 * 100vw);
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: space-between;
+            box-sizing: border-box;
+            .icon {
+                width: calc(27 / 750 * 100vw);
+                margin-right: calc(16 / 750 * 100vw);
+            }
+        }
+    }
+    .btn-box {
+        width: calc(679 / 750 * 100vw);
+        height: calc(178 / 750 * 100vw);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: absolute;
+        // top: calc(1056 / 750 * 100vw);
+        top: 80.61%;
+        left: 50%;
+        transform: translateX(-50%);
+        .btn-borders {
+            width: 100%;
+            height: calc(80 / 750 * 100vw);
+            text-align: center;
+            line-height: calc(80 / 750 * 100vw);
+            background: rgba(95, 200, 254, 1);
+            border-radius: calc(24 / 750 * 100vw);
+            .btn {
+                font-size: calc(24 / 750 * 100vw);
+                font-family: Source Han Sans CN;
+                font-weight: 800;
+                color: rgba(255, 255, 255, 1);
+            }
+        }
+
+        .qr-btn {
+            width: 100%;
+            height: calc(80 / 750 * 100vw);
+            text-align: center;
+            line-height: calc(80 / 750 * 100vw);
+            // font-size: calc(24 / 750 * 100vw);
+            color: rgba(255, 255, 255, 1);
+            font-weight: 800;
+            background: rgba(95, 200, 254, 1);
+            border-radius: calc(24 / 750 * 100vw);
+            input[node-type='jsbridge'] {
+                visibility: hidden;
+            }
+            #scan-btn {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}
+</style>

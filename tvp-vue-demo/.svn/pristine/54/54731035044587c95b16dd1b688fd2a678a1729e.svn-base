@@ -1,0 +1,295 @@
+<template>
+    <div id="login">
+        <div class="main">
+            <img class="logo" src="imgs/logo.png" alt />
+            <div class="input-box">
+                <input
+                    type="text"
+                    id="username"
+                    class="username"
+                    maxlength="11"
+                    placeholder="Username"
+                    v-model="username"
+                    @focus="inputFoucs"
+                    @blur="inputBlur"
+                />
+                <input
+                    type="password"
+                    id="password"
+                    class="password"
+                    ref="password"
+                    maxlength="11"
+                    placeholder="Password"
+                    v-model="password"
+                    @focus="inputFoucs"
+                    @blur="inputBlur"
+                />
+                <img class="eye" ref="eye" src="imgs/icon12.png" @click="changeEye" alt />
+                <div class="input-bottom">
+                    <input
+                        type="text"
+                        id="code"
+                        class="code"
+                        maxlength="4"
+                        placeholder="Verification code"
+                        v-model="validCode"
+                        @focus="inputFoucs"
+                        @blur="inputBlur"
+                    />
+                    <div class="validCode" @click="getCode">
+                        <SIdentify :identifyCode="identifyCode" style="width:100%;height:100%;"></SIdentify>
+                    </div>
+                </div>
+            </div>
+            <div class="login-btn">
+                <HButton :text="'Login'" @click="login"></HButton>
+            </div>
+        </div>
+        <MessageBox v-if="messageShow"></MessageBox>
+    </div>
+</template>
+<script>
+import HButton from './HButton';
+import SIdentify from './Identify';
+import { driverLogin, getValidCode } from '@/request/api';
+import MessageBox from './MessageBox';
+export default {
+    name: 'LoginPage',
+    data() {
+        return {
+            globalData: window.store.state,
+            messageShow: false,
+            isFocus: false,
+            timeout: null,
+            eyeflag: true,
+            codeflag: true,
+            loginflag: true,
+            identifyCode: '',
+            username: '',
+            password: '',
+            validCode: '',
+            errormsg: '',
+        };
+    },
+    components: {
+        HButton,
+        SIdentify,
+        MessageBox,
+    },
+    created() {
+        this.getCode();
+        this.getCookie();
+    },
+    methods: {
+        inputFoucs: function () {
+            this.isFocus = true;
+        },
+        inputBlur: function () {
+            this.isFocus = false;
+            this.resetPage();
+        },
+        resetPage: function () {
+            if (this.timeout) {
+                clearTimeout(this.timeout);
+                this.timeout = null;
+            }
+            this.timeout = setTimeout(function () {
+                if (!this.isFocus) {
+                    window.scroll(0, 0);
+                }
+                this.timeout = null;
+            }, 500);
+        },
+        changeEye: function () {
+            this.eyeflag = !this.eyeflag;
+            if (this.eyeflag) {
+                this.$refs.eye.src = 'imgs/icon12.png';
+                this.$refs.password.type = 'password';
+            } else {
+                this.$refs.eye.src = 'imgs/icon11.png';
+                this.$refs.password.type = 'text';
+            }
+        },
+        //获取验证码
+        async getCode() {
+            let codeRes = await getValidCode({});
+            if (codeRes.code == 0) {
+                console.log(codeRes.validCode);
+                this.identifyCode = codeRes.data.validCode;
+            }
+        },
+        //状态码验证
+        //提交表单
+        async login() {
+            let loginRes = await driverLogin({
+                username: this.username,
+                password: this.password,
+                validCode: this.validCode,
+            });
+            if (loginRes.code == 0) {
+                window.store.setLoginRes(this.globalData.loginRes);
+                this.setCookie(this.username, this.password, 365);
+                //分链接进入
+                if (this.globalData.dn) {
+                    this.$emit('toDetail', null);
+                } else {
+                    this.$emit('toShipments', null);
+                }
+            } else {
+                //故障反馈
+                this.messageShow = true;
+                if (loginRes.code == 2202) {
+                    this.$emit('toOthers', null);
+                }
+            }
+        },
+        //设置cookie
+        setCookie(c_name, c_pwd, exdays) {
+            var exdate = new Date(); //获取时间
+            exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
+            //字符串拼接cookie
+            window.document.cookie =
+                'userName' +
+                '=' +
+                c_name +
+                ';path=/;expires=' +
+                exdate.toGMTString();
+            window.document.cookie =
+                'userPwd' +
+                '=' +
+                c_pwd +
+                ';path=/;expires=' +
+                exdate.toGMTString();
+        },
+        //读取cookie
+        getCookie: function () {
+            if (document.cookie.length > 0) {
+                var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
+                for (var i = 0; i < arr.length; i++) {
+                    var arr2 = arr[i].split('='); //再次切割
+                    //判断查找相对应的值
+                    if (arr2[0] == 'userName') {
+                        this.username = arr2[1]; //保存到保存数据的地方
+                    } else if (arr2[0] == 'userPwd') {
+                        this.password = arr2[1];
+                    }
+                }
+            }
+        },
+        //清除cookie
+        clearCookie: function () {
+            this.setCookie('', '', -1); //修改2值都为空，天数为负1天就好了
+        },
+    },
+};
+</script>
+<style lang="less" scoped>
+#login {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    .app-bg {
+        width: 100%;
+    }
+    .main {
+        width: calc(686 / 750 * 100vw);
+        height: calc(995 / 750 * 100vw);
+        /*  height: 64.65%; */
+        background-color: #ffffff;
+        box-shadow: 0px 6px 60px 0px rgba(36, 78, 151, 0.36);
+        border-radius: calc(24 / 750 * 100vw);
+        position: absolute;
+        top: 48%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* margin-top: calc(251 / 750 * 100vw);
+        margin-left: calc(32 / 750 * 100vw); */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+        .logo {
+            width: calc(357 / 750 * 100vw);
+            margin-left: calc(165 / 750 * 100vw);
+            margin-top: calc(133 / 750 * 100vw);
+            /* margin-top: 13.37%; */
+        }
+        input {
+            margin-bottom: calc(26 / 750 * 100vw);
+            outline-style: none;
+            border: 0;
+            border-radius: 3px;
+            font-size: 3.2vw;
+            font-family: Source Han Sans CN;
+            font-weight: 500;
+            color: rgba(118, 118, 118, 1);
+            text-indent: 6.25%;
+            border: 1px solid rgba(1, 38, 109, 1);
+            border-radius: 24px;
+            box-sizing: border-box;
+        }
+        .input-box {
+            width: calc(544 / 750 * 100vw);
+            height: calc(266 / 750 * 100vw);
+            margin-left: calc(72 / 750 * 100vw);
+            box-sizing: border-box;
+            /* position: absolute;
+            top: 34.87%;
+            left: 50%;
+            transform: translateX(-50%); */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            .eye {
+                width: calc(38 / 750 * 100vw);
+                position: absolute;
+                right: calc(19 / 750 * 100vw);
+                top: calc(121 / 750 * 100vw);
+                /* top: 46.85%; */
+            }
+            .username,
+            .password,
+            .input-bottom {
+                width: 100%;
+                height: calc(72 / 750 * 100vw);
+            }
+            .input-bottom {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                .code {
+                    width: calc(390 / 750 * 100vw);
+                    height: 100%;
+                }
+            }
+            .validCode {
+                width: calc(148 / 750 * 100vw);
+                height: calc(72 / 750 * 100vw);
+                position: absolute;
+                right: 0;
+                bottom: 0;
+            }
+            #s-canvas {
+                width: 100%;
+                height: 1005;
+            }
+        }
+
+        .login-btn /deep/ .btn-borders {
+            width: calc(542 / 750 * 100vw);
+            height: calc(80 / 750 * 100vw);
+            border-radius: calc(24 / 750 * 100vw);
+            text-align: center;
+            color: #ffffff;
+            font-family: Source Han Sans CN;
+            font-size: 3.2vw;
+            margin-left: calc(72 / 750 * 100vw);
+            margin-bottom: calc(188 / 750 * 100vw);
+            background: linear-gradient(to right, #076c98, #01266d);
+        }
+    }
+}
+</style>

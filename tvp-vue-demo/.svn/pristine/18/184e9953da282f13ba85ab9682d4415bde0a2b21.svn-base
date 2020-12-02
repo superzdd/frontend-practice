@@ -1,0 +1,128 @@
+module.exports = {
+    // 司机登录
+    'POST /driver/login': {
+        code: 0,
+        data: {
+            driverCode: '1234',
+        },
+        msg: '登录成功',
+    },
+    //司机登出
+    'POST /driver/logout': {
+        code: 0,
+        data: {},
+        msg: '登出成功',
+    },
+    //司机信息更新
+    'POST /driver/:driverCode': {
+        code: 0,
+        data: {},
+        msg: '成功',
+    },
+    // 获取验证码
+    'GET /validCode': {
+        code: 0,
+        data: {
+            validCode: '' + Math.floor(Math.random() * 10000),
+        },
+        msg: '获取验证码成功',
+    },
+    // 获取运单列表
+    'GET /shipments': {
+        code: 0,
+        data: {
+            shipments: [
+                {
+                    dn: '201478560920',
+                    createTime: '2020-07-12 10:00',
+                    from: 'Bologna',
+                    to: 'Venice',
+                    recipient: 'Lark',
+                    pcs: '5 ctns',
+                    logisticsState: 1,
+                },
+                {
+                    dn: '201478560920',
+                    createTime: '2020-07-12 10:00',
+                    from: 'Rome',
+                    to: 'Florence',
+                    recipient: 'Lark',
+                    pcs: '5 ctns',
+                    logisticsState: 0,
+                },
+                {
+                    dn: '201478560920',
+                    createTime: '2020-07-12 10:00',
+                    from: '	Milan',
+                    to: 'Florence',
+                    recipient: 'Turin',
+                    pcs: '5 ctns',
+                    logisticsState: 1,
+                },
+                {
+                    dn: '201478560920',
+                    createTime: '2020-07-12 10:00',
+                    from: 'Rome',
+                    to: 'Florence',
+                    recipient: 'Lark',
+                    pcs: '5 ctns',
+                    logisticsState: 0,
+                },
+            ],
+        },
+        msg: '获取运单列表成功',
+    },
+    // 获取运单详情
+    'GET /shipment/:dn': {
+        code: 0,
+        data: {
+            dn: '201478560920',
+            // createTime: '2020-07-12 10:00',
+            // deliveryTime: '2020-07-13 14:00',
+            from: 'Rome',
+            to: 'Florence',
+            recipient: 'Lark',
+            pcs: '5 ctns',
+            logisticsState: 1,
+            issues: [
+                {
+                    src: [
+                        'imgs/xiaoyuan.jpg',
+                        'imgs/xiaoyuan.jpg',
+                        'imgs/xiaoyuan.jpg',
+                    ],
+                    desc:
+                        ' Do you want to be a magical girl?Do you want to be a magical girl?Do you want to be a magical girl',
+                },
+                {
+                    src: [
+                        'imgs/xiaoyuan.jpg',
+                        'imgs/xiaoyuan.jpg',
+                        'imgs/xiaoyuan.jpg',
+                    ],
+                    desc:
+                        ' Do you want to be a magical girl?Do you want to be a magical girl?Do you want to be a magical girl',
+                },
+            ],
+        },
+        msg: '获取运单详情成功',
+    },
+    // 运单更新-揽件
+    'POST /shipment/pickingup': {
+        code: 0,
+        data: {},
+        msg: '成功',
+    },
+    // 运单更新-送达
+    'POST /shipment/completion': {
+        code: 0,
+        data: {},
+        msg: '成功',
+    },
+    // 运单更新-事件通知
+    'POST /shipment/issue': {
+        code: 0,
+        data: {},
+        msg: '成功',
+    },
+};
