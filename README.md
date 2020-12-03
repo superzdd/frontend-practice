@@ -22,3 +22,7 @@
 #### 基于p5的一些实例
 > p5js
 - noise系列：关于柏林噪声的各种图像研究
+
+#### 微信HTML5字数限制
+> 微信HTML5字数限制，标题，转发，发送给朋友，朋友圈字数限制
+> [html-title-length](https://superzdd.github.io/frontend-practice/html-title-length/index.html)
