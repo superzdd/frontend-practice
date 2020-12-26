@@ -26,3 +26,7 @@
 #### 微信HTML5字数限制
 > 微信HTML5字数限制，标题，转发，发送给朋友，朋友圈字数限制
 > [html-title-length](https://superzdd.github.io/frontend-practice/html-title-length/index.html)
+
+#### aspect-ratio笔记
+> 搞懂aspect-ratio
+> [搞懂aspect-ratio](https://superzdd.github.io/frontend-practice/aspect-ratio/README.md)
