@@ -38,4 +38,6 @@
 
 #### [安卓android手机H5动画使用scale导致图片模糊的解决方案](https://superzdd.github.io/frontend-practice/android-scale-not-clear/index.html)
 
-#### [获取滚动条高度](https://superzdd.github.io/frontend-practice/scroll-height/index.html)
+#### [获取滚动条高度](https://superzdd.github.io/frontend-practice/scroll-height/README.md)
+
+#### [项目依赖分析](https://superzdd.github.io/frontend-practice/bundle-analyzer-plugin/README.md)
