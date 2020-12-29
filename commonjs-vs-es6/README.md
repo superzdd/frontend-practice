@@ -1,6 +1,5 @@
 # Commonjs和es6导入导出的区别
-> 在写代码时，经常需要写一个类封装。但每当写到最后需要`exports`的时候，都会去看一下其他的类之前是怎么写的。什么一会`export`,一会`exports.default`，有一会`export default`，总之就是很混乱。引入的时候也比较乱，一会用`import`，一会又用`require`，总是没时间好好整理。
-> 其实整理清楚了并不难，其实就是两种规范导致的，一种是CommonJS规范，另一种是es6的规范
+> 在写代码时，经常需要写一个类封装。但每当写到最后需要`exports`的时候，都会去看一下其他的类之前是怎么写的。导出时，`export`/`exports.default`/`export default`，之间傻傻分不清楚。引入时，、`import`/`require`，也分不清，总是没时间好好整理。最近终于有时间好好看了一遍，其实整理清楚了并不难，说白了就是两种规范导致的，一种是CommonJS规范，另一种是es6的规范。
 
 
 ### CommonJS(Common2js)
