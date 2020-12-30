@@ -31,3 +31,5 @@
 14. [项目依赖分析](https://superzdd.github.io/frontend-practice/bundle-analyzer-plugin)
 
 15. [Commonjs和es6导入导出的区别](https://superzdd.github.io/frontend-practice/commonjs-vs-es6)
+ 
+16. [alert去除域名](https://superzdd.github.io/frontend-practice/alert-no-title)
