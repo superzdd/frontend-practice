@@ -33,3 +33,5 @@
 15. [Commonjs和es6导入导出的区别](https://superzdd.github.io/frontend-practice/commonjs-vs-es6)
  
 16. [alert去除域名](https://superzdd.github.io/frontend-practice/alert-no-title)
+
+16. [visibilitychange](https://superzdd.github.io/frontend-practice/visibilitychange)
