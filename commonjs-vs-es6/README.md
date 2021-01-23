@@ -30,20 +30,44 @@ var b = require('example').x; // 单独调用example.x
 var exp = require('example'); // 完整调用example
 console.log(example.x); // 5
 console.log(example.addX(1)); // 6
+
 ```
 
-// module.exports.env = _default;
+### vue cli中关于require的用法
+vue cli中，引用图片推荐使用require，优点如下：
+1. 代码更简单
+require即插即用，但是import需要promise，也仅限于在`script`中使用
+```js
+// 使用require
+initMovieClipImageArray() {
+	let ret = [];
 
-// es6
-// 关键字 import export
-// export default _default; // 
-/**
- * 这句话在babel编译后，会变成=> exports.default = _default
- * 关键代码如下：
- * "use strict";
- * 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = _default; 
- */
+	for (let i = 1; i <= 10; i++) {
+		let srcUtil = require(`../imgs/movieclip/mc_${i}.jpg`);
+		ret.push(srcUtil);
+	}
+
+	this.movieClipInfo.imageArray = ret;
+}
+
+// 使用import
+async initMovieClipImageArray() {
+	let ret = [];
+
+	for (let i = 1; i <= 10; i++) {
+		let { default: srcUtil } = await import(
+			`../imgs/movieclip/mc_${i}.jpg`
+		);
+		ret.push(srcUtil);
+	}
+
+	this.movieClipInfo.imageArray = ret;
+},
+```
+
+2. build生成的文件更简单
+使用require，不会产生多余的chunk文件，如下图所示：
+![](README_files/1.jpg)
+
+使用import，会产生很多chunk文件。如上方代码，i循环了10次，就会产生10*2个chunk文件，如下图所示：
+![](README_files/2.jpg)
