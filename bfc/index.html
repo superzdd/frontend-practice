@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>BFC笔记</title>
+		<style type="text/css">
+			.wrapper {
+				width: 200px;
+				border: 1px solid #000;
+			}
+
+			.clear {
+				overflow: hidden;
+			}
+
+			.clearfix:after {
+				content: "";
+				display: block;
+				clear: both;
+			}
+
+			.block {
+				width: 80px;
+				height: 80px;
+				color: #fff;
+			}
+
+			.red {
+				background-color: red;
+			}
+
+			.blue {
+				background-color: blue;
+			}
+
+			.fl {
+				float: left;
+				opacity: 0.5;
+			}
+
+			.cb {
+				clear: both;
+			}
+
+			.flx {
+				display: flex
+			}
+		</style>
+	</head>
+	<body>
+		<h1>BFC笔记</h1>
+		<p>1. 一个BFC的html元素，会使其父元素高度丢失</p>
+		<p>2. 很多博客里解决float：left的浮动的方法，都是给其父元素或者兄弟元素加overflow:hidden或者display:block，说白了，就是把父元素和兄弟元素也改成了BFC而已</p>
+		<p>3. 父容器为了清除浮动，最好的方式是用伪元素，强行将空间撑开。这样最大的好处是父容器自身不用变成BFC</p>
+		<div>
+			<h3>块级元素自然布局</h3>
+			<div class="wrapper">
+				<div class="block red"></div>
+				<div class="block blue"></div>
+			</div>
+
+			<h3>块级元素自然布局</h3>
+			<div class="wrapper">
+				<div class="block red">1</div>
+				<div class="block blue">2</div>
+			</div>
+
+			<h3>红块脱离文档流（红块变成BFC）</h3>
+			<p>红块和蓝块此时重叠，但是蓝块内的数字被顶出了容器</p>
+			<div class="wrapper">
+				<div class="block red fl">float:left</div>
+				<div class="block blue">2</div>
+			</div>
+			<div class="cb"></div>
+
+			<h3>红块脱离文档流（红块变成BFC），父容器也变成BFC
+			</h3>
+			<p>容器加了overflow:hidden，但是结果比上方还差劲，2因为hidden的关系甚至消失了</p>
+			<div class="wrapper clear">
+				<div class="block red fl">float: left</div>
+				<div class="block blue">2</div>
+			</div>
+
+			<h3>红块脱离文档流（红块变成BFC），蓝块也变成BFC（overflow:hidden）
+			</h3>
+			<p>红块float: left,蓝块hidden。蓝块和红块同级时，蓝块加hidden可以避免和浮动元素重叠，两个BFC不重叠？</p>
+			<div class="wrapper">
+				<div class="block red fl">float: left</div>
+				<div class="block blue clear">overflow: hidden</div>
+			</div>
+			
+			<div class="cb"></div>
+			<h3>红块脱离文档流（红块变成BFC），蓝块也变成BFC（display:flex）
+			</h3>
+			<p>这里flex和上方overflow起到的作用是一样的</p>
+			<div class="wrapper">
+				<div class="block red fl">float: left</div>
+				<div class="block blue flx">display: flex</div>
+			</div>
+
+			<h3>红块蓝块一起脱离文档流（红块蓝块全部变成BFC）
+			</h3>
+			<p>父容器高度丢失，塌陷</p>
+			<div class="wrapper">
+				<div class="block red fl">float: left</div>
+				<div class="block blue fl">float: left</div>
+			</div>
+			<div class="cb"></div>
+
+			<h3>红块蓝块一起脱离文档流（红块蓝块全部变成BFC），父容器也BFC
+			</h3>
+			<p>容器overflow:hidden，这时能看出清除浮动的效果</p>
+			<div class="wrapper clear">
+				<div class="block red fl">float: left</div>
+				<div class="block blue fl">float: left</div>
+			</div>
+
+			<h3>红块蓝块一起脱离文档流（红块蓝块全部变成BFC），父容器也BFC
+			</h3>
+			<p>容器用伪元素清除浮动</p>
+			<div class="wrapper clear">
+				<div class="block red fl">float: left</div>
+				<div class="block blue fl">float: left</div>
+			</div>
+		</div>
+	</body>
+</html>

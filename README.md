@@ -39,3 +39,7 @@
 16. [微信调试-安卓专用](https://superzdd.github.io/frontend-practice/wechat-debug)
 
 17. [视频关键事件属性记录](https://superzdd.github.io/frontend-practice/tencent-video/h5inline-video.html)
+
+18. [BFC笔记](https://superzdd.github.io/frontend-practice/bfc/index.html)
+
+19. [GRID笔记](https://superzdd.github.io/frontend-practice/grid-layout)
