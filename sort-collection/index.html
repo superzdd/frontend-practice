@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript" src="app.js"></script>
+		<script type="text/javascript">
+			var arr = ['b1', 'b3', 'a1', 'a4', 'c4', 'c', 'a', 'b', 'b2', 'c1', 'c2'];
+			var arr1 = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48];
+
+			var testArray = [];
+			testArray.push(arr);
+			// testArray.push(arr1);
+			// testArray.push([1]);
+
+
+			// 测试
+			var test = function(arr, fn) {
+				console.log(`测试开始`);
+				console.log(`原始数组：${JSON.stringify(arr)}`);
+				let ret = fn(arr);
+				let sortResult = arrEquals(ret, standardSort(arr));
+				console.log(`排序结果：${JSON.stringify(fn(arr))}, 结果${sortResult?'正确':'错误'}`);
+			}
+
+			var arrEquals = function(arr1, arr2) {
+				if (arr1.length != arr2.length) {
+					return false;
+				}
+
+				for (let i = 0; i < arr1.length; i++) {
+					if (arr1[i] != arr2[i]) {
+						return false;
+					}
+				}
+
+				return true;
+			}
+
+			var log = console.log;
+
+			// log('=== 选择排序测试')
+			// testArray.forEach(arr => {
+			// 	test(arr, selectionSort)
+			// });
+
+			// log('=== 插入排序测试')
+			// testArray.forEach(arr => {
+			// 	test(arr, insertionSort)
+			// });
+
+			log('=== 希尔排序 测试')
+			testArray.forEach(arr => {
+				test(arr, shellSort)
+			});
+		</script>
+	</body>
+</html>

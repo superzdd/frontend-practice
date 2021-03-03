@@ -43,3 +43,5 @@
 18. [BFC笔记](https://superzdd.github.io/frontend-practice/bfc/index.html)
 
 19. [GRID笔记](https://superzdd.github.io/frontend-practice/grid-layout)
+
+20. [排序算法汇总-冒泡，选择，插入](https://superzdd.github.io/frontend-practice/sort-collection)
