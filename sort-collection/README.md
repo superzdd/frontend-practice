@@ -1,13 +1,15 @@
 ## 排序算法整理
-[参考笔记](https://www.cnblogs.com/guoyaohua/p/8600214.html)
-笔记提示：
+[参考大神博客](https://www.cnblogs.com/guoyaohua/p/8600214.html)
+
+下方内容提示：
 1. a(n) => 数组的第n项
 2. a(1)或者a(0) => 数组的第1项
 3. a(end) => 数组的末项
 
 ### ex es6的原生排序sort
 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
-关键代码如下
+
+关键代码
 ```js
 return ret.sort((u1, u2) =>
 		u1 < u2 ? -1 : 1
@@ -22,6 +24,7 @@ return ret.sort((u1, u2) =>
 - 第2次循环开始时，轮询的数组长度-1，循环a(2)到a(end-1)， 因为最大值会在上一次循环时放在最后，这次就不必再比较了
 - 重复循环，直到第n-1次，或者到某次已经不需要进行任何排序的时候终止
 > 时间复杂度 O(n²)
+
 关键代码
 ```js
 var bubbleSort = function(arr) {
@@ -54,6 +57,7 @@ var bubbleSort = function(arr) {
 - 当第2次循环开始时，轮询的数组长度-1，循环a(2)~a(end)，因为最小值会在上一次循环时放在最前，这次就不必再比较了
 - 重复循环，直到第n-1次，或者到某次已经不需要进行任何排序的时候终止
 > 时间复杂度 O(n²)
+
 关键代码
 ```js
 var selectionSort = function(arr) {
