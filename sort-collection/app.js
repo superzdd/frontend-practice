@@ -60,12 +60,32 @@ var insertionSort = function(arr) {
 		let unit = arr[i];
 		let findIndex = ret.length;
 		for (let j = 0; j < ret.length; j++) {
-			if (ret[j] > unit) {
+			if (unit < ret[j]) {
 				findIndex = j;
 				break;
 			}
 		}
 		ret.splice(findIndex, 0, unit);
+	}
+
+	return ret;
+}
+
+var insertionSortV2 = function(arr) {
+	let ret = [].concat(arr);
+
+	for (let i = 1; i < ret.length; i++) {
+		let unit = ret[i];
+		for (let j = 0; j < i; j++) {
+			// 找到unit插入的位置
+			if (unit < ret[j]) {
+				ret.splice(j, 0, unit);
+				ret.splice(i + 1, 1);
+				break;
+			}
+		}
+
+		// console.log(`insertion: i = ${i}, array: ${JSON.stringify(ret)}`);
 	}
 
 	return ret;
@@ -77,25 +97,77 @@ var shellSort = function(arr) {
 	let gap = Math.floor(ret.length / step); // 子数组取值两个数之间的间隔，前后两个数间隔为1，比如数组[a,b],a和b的间隔为1
 	const len = ret.length;
 	while (gap >= 1) {
-		console.log(`gap is ${gap}`);
-		for (let i = 0; i < Math.ceil(len / gap); i++) {
+		console.log(`shell: gap 为 ${gap} 排序开始`);
+		for (let i = 0; i < Math.min(len, gap); i++) {
 			let childArr = [];
 			let childIndexArr = [];
-			for (let j = i; j < Math.min(len, gap); j + gap) {
+			for (let j = i; j < len; j += gap) {
 				childIndexArr.push(j);
 				childArr.push(ret[j]);
 			}
+
+			console.log(`shell: gap is ${gap}, array${i+1} 准备排序：${JSON.stringify(childArr)}`);
 			childArr = insertionSort(childArr);
+			console.log(`shell: gap is ${gap}, array${i+1} 排序完成：${JSON.stringify(childArr)}`);
 
 			for (let j = 0; j < childArr.length; j++) {
 				ret[childIndexArr[j]] = childArr[j];
 			}
-
-			console.log(`shell: gap is ${gap}, array is ${JSON.stringify(ret)}`);
 		}
+
+		console.log(`shell: gap 为 ${gap} 排序完成, 当前数组：${JSON.stringify(ret)}`);
 
 		gap = Math.floor(gap / step);
 	}
 
 	return ret;
+}
+
+var shellSortV2 = function(arr) {
+	const step = 2; // 希尔排序的固定步长，用于缩小gap
+	let ret = [].concat(arr);
+	const len = ret.length; // 获取数组的长度
+
+	// 初始化gap，子数组取值两个数之间的间隔。前后两个数间隔为1，比如数组[a,b]中,a和b的间隔为1。
+	// 在希尔排序中，每次循环之后，gap都会缩小一级，即gap = gap/step
+	let gap = Math.floor(ret.length / step);
+
+	while (gap >= 1) {
+		console.log(`shell: gap 为 ${gap} 排序开始`);
+
+		for (let i = gap; i < len; i++) {
+			let unit = ret[i];
+			console.log(`=== shell: gap = ${gap}, i = ${i}`);
+			// 每个unit都和它之前的所有gap间隔的数组进行比对，如果小于那个值，就要互换位置
+			let j = i;
+			while (j >= gap) {
+				if (ret[j - gap] > ret[j]) {
+					console.log(`=== shell: gap = ${gap}, i = ${i},交换 ${ret[j - gap]}, ${ret[j]}`);
+					[ret[j - gap], ret[j]] = [ret[j], ret[j - gap]];
+				}
+				j -= gap;
+			}
+			console.log(`=== shell: gap = ${gap}, i = ${i}, 交换结果：${JSON.stringify(ret)}`);
+		}
+
+		console.log(`shell: gap 为 ${gap} 排序完成, 当前数组：${JSON.stringify(ret)}`);
+
+		gap = Math.floor(gap / step);
+	}
+
+	return ret;
+}
+
+
+var mergeSort = function(arr) {
+	if (arr.length > 2) {
+		const cutLength = Math.ceil(arr.length / 2);
+		let arr1 = arr.slice(0, cutLength);
+		let arr2 = arr.slice(cutLength);
+
+		arr1 = mergeSort(arr1);
+		arr2 = mergeSort(arr2);
+	}
+
+	mergeSort()
 }
