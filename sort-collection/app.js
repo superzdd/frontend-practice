@@ -158,16 +158,80 @@ var shellSortV2 = function(arr) {
 	return ret;
 }
 
-
+// TODO
 var mergeSort = function(arr) {
-	if (arr.length > 2) {
-		const cutLength = Math.ceil(arr.length / 2);
-		let arr1 = arr.slice(0, cutLength);
-		let arr2 = arr.slice(cutLength);
+	// if (arr.length > 2) {
+	// 	const cutLength = Math.ceil(arr.length / 2);
+	// 	let arr1 = arr.slice(0, cutLength);
+	// 	let arr2 = arr.slice(cutLength);
 
-		arr1 = mergeSort(arr1);
-		arr2 = mergeSort(arr2);
+	// 	arr1 = mergeSort(arr1);
+	// 	arr2 = mergeSort(arr2);
+	// }
+
+	// mergeSort()
+}
+
+var quickSort = function(arr) {
+	if (arr.length <= 1) {
+		console.log(`=== quick sort, arr = ${JSON.stringify(arr)}, return ${JSON.stringify(arr)}`);
+		return arr;
 	}
 
-	mergeSort()
+	if (arr.length == 2) {
+		let ret = quickChange(arr, 0, 1);
+		console.log(`=== quick sort, arr = ${JSON.stringify(arr)}, return ${JSON.stringify(ret)}`);
+		return ret;
+	}
+
+	var randomIndex = Math.floor(Math.random() * arr.length);
+	var root = arr[randomIndex];
+	console.log(`=== quick sort, arr = ${JSON.stringify(arr)}, root = ${root}`);
+
+	let ret = [];
+	let {
+		arrLeft,
+		arrRight
+	} = quickSplit(arr, randomIndex);
+
+	console.log(`arr left: ${JSON.stringify(arrLeft)}`);
+	console.log(`arr middle: ${JSON.stringify(root)}`);
+	console.log(`arr right: ${JSON.stringify(arrRight)}`);
+
+	ret = ret.concat(quickSort(arrLeft));
+	ret = ret.concat(root);
+	ret = ret.concat(quickSort(arrRight));
+	console.log(`=== quick sort, arr = ${JSON.stringify(arr)}, return ${JSON.stringify(ret)}`);
+	return ret;
+}
+
+var quickSplit = function(arr, rootIndex) {
+	let arrLeft = []
+	let arrRight = [];
+
+	let root = arr[rootIndex];
+	for (let i = 0; i < arr.length; i++) {
+		if (i === rootIndex) {
+			continue;
+		}
+
+		if (arr[i] < root) {
+			arrLeft.push(arr[i]);
+		} else {
+			arrRight.push(arr[i]);
+		}
+	}
+
+	return {
+		arrLeft,
+		root,
+		arrRight
+	}
+}
+
+var quickChange = function(arr, i, j) {
+	if (arr[i] > arr[j]) {
+		[arr[i], arr[j]] = [arr[j], arr[i]];
+	}
+	return arr;
 }

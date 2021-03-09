@@ -10,11 +10,13 @@
 			var arr = ['b1', 'b3', 'a1', 'a4', 'c4', 'c', 'a', 'b', 'b2', 'c1', 'c2'];
 			var arr1 = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48];
 			var arr2 = [8, 9, 1, 7, 2, 3, 5, 4, 6, 0];
+			var arr3 = [1,2,3];
 
 			var testArray = [];
 			// testArray.push(arr);
 			// testArray.push(arr1);
 			testArray.push(arr2);
+			testArray.push(arr3);
 			// testArray.push([1]);
 
 
@@ -64,9 +66,14 @@
 			// 	test(arr, shellSort)
 			// });
 
-			log('=== 希尔排序v2 测试')
+			// log('=== 希尔排序v2 测试')
+			// testArray.forEach(arr => {
+			// 	test(arr, shellSortV2)
+			// });
+			
+			log('=== 快速排序 测试')
 			testArray.forEach(arr => {
-				test(arr, shellSortV2)
+				test(arr, quickSort)
 			});
 		</script>
 	</body>
