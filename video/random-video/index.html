@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport"
+			content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover" />
+		<title>视频测试，切换视频资源</title>
+		<link rel="stylesheet" type="text/css" href="../common/common.css" />
+		<link rel="stylesheet" type="text/css" href="index.css" />
+	</head>
+	<body>
+		<div class="page" id="pg-video">
+			<h1>点击按钮播放视频，再次点击按钮切换视频资源</h1>
+			
+			<div id="video-wrapper">
+				<video id="video" autoplay controls="" playsinline="" webkit-playsinline="" x5-video-player-type="h5-page">
+				</video>
+			</div>
+
+			<el-button type="primary">主要按钮</el-button>
+			<div class="btn btn-change">
+				切换视频资源
+			</div>
+		</div>
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+			integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.3.4/vconsole.min.js" type="text/javascript"
+			charset="utf-8"></script>
+		<script type="text/javascript">
+			var vConsole = new VConsole();
+		</script>
+		<script type="text/javascript" src="app.js"></script>
+	</body>
+</html>

@@ -45,3 +45,6 @@
 19. [GRID笔记](https://superzdd.github.io/frontend-practice/grid-layout)
 
 20. [排序算法汇总-冒泡，选择，插入](https://superzdd.github.io/frontend-practice/sort-collection)
+21. 
+21. 视频测试合集
+- [一次切换视频资源](https://superzdd.github.io/frontend-practice/video/random-video/index.html)

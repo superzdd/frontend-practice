@@ -136,9 +136,9 @@ var shellSortV2 = function(arr) {
 		console.log(`shell: gap 为 ${gap} 排序开始`);
 
 		for (let i = gap; i < len; i++) {
-			let unit = ret[i];
 			console.log(`=== shell: gap = ${gap}, i = ${i}`);
-			// 每个unit都和它之前的所有gap间隔的数组进行比对，如果小于那个值，就要互换位置
+			// 从第i个数开始，和它前面的所有gap间隔的数形成一个数组，进行排序，如果小于那个值，就要互换位置
+			// 希尔排序内部用的不像是插入排序，更像是冒泡排序，因为在不断地交换位置
 			let j = i;
 			while (j >= gap) {
 				if (ret[j - gap] > ret[j]) {
