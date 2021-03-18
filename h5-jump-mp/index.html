@@ -2,8 +2,168 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title></title>
+		<meta
+		  name="viewport"
+		  content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover"
+		/>
+		<title>微信H5跳转微信小程序</title>
+		<style>
+			body,
+			html {
+				padding: 0;
+				margin: 0;
+				width: 100vw;
+				height: 100vh;
+				background: #FFF;
+			}
+
+			.launch-btn {
+				top: 54vh;
+				position: absolute;
+				left: 50vw;
+				transform: translate(-50%, 0);
+				-webkit-transform: translate(-50%, 0);
+				width: 77.96vw;
+				height: 13.07vw;
+				display: block;
+				z-index: 5;
+			}
+
+			.hidden {
+				display: none;
+			}
+
+			.full {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+			}
+
+			wx-open-launch-weapp {
+				position: absolute;
+				bottom: 40%;
+				left: 0;
+				right: 0;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+		</style>
 	</head>
 	<body>
+		<div class="wrap">
+			<wx-open-launch-weapp id="launch-btn" username="gh_4ca7e2df31eb" path="/pages/index/index">
+				<template>
+					<img style="width: 77.96vw; height: 13.07vw; display: block; margin: 0 auto;"
+						src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA20AAACTBAMAAADvrOwNAAAAMFBMVEX///+uJCjEXmHZmZvpxcb68PGzMzbv09TOfH7fp6m+UFP04uLUioy5QUXJbXDktrdsxdw1AAAFMElEQVR42uzbSaxLURzH8T9utVXT7+Gm6lW0IixMTYMIiakSwaKGWEiIIkEsXCESVixssDCEWIkuEGxqI7ERxLgyRiIk5oWVSmwlzjm9dW4nZdHL4vdJ3nnvNu3qm/955zatEBERERERERERERERERERERERERERERERERERERERERERERERERERERERERER0V8Y+kB+Z5408IRCNUs6iGKGvXDEl9g8p/YbRyXA6S/q1POEQpI+LsoRTxKmoHNL6m7joNQN6FO5jH14ZaYRmCzWMOxQaxyXhcKB9PdCYRlGiePO0llSFfEtwljbDaiKMQjQaQfD/SRWrvZoDpeEQgHfhQTcfD5fxi7bbbztZh9+ijFqPYFtYkWBHRUzdumiUBgAtTjAJIGbzWZLdsgGmG6e//cE8R3CaLWWXS/wb28IzKUMB2YKhSFT65YSQZ+5PC6+YTpQPFkc+KChW07Pm4Nt5u/D/mP+9A1it1DYbn2/ui0Un5NVCU/gwgBsCXZbp8sONPMVR6oiShSpomgjoF8eqQg1C6XbnWxdCalVGFvrFs9r86eo5fb4vJJDbc424ILUHOpXS2ysULNQuu0tFAor8bxgbMCEWrcR+VZzRXmfFC14A0E9loFKs6TNPjkMuCXaQL9bR0MxUwZ+LcFKCfVYBkZrtxyuyp91O7FVZJE7Q/VfBtwtaEKter5P2rPG9GJDtxtiVMWIfVwqSnx8Ub8urdZBSAq1F1I3c9aIY0tDt0WvTK+U5w+i2UnPVM1B8qrobqOE2gunW6ScNGd+TGrohmfqjJlRdeIfPVWpv/7O9DA1nezWRRjdlpsb6PforzZ2m2iO/25lEFKq0mh7M75T2K2LELoNQbLov4fc0M3UHIDXMghjAt0SJddjty7C6BYDMGXBNySlbbcJqtDIQLfhqhe7hSoDI9XYLYqag3/W7Rv62C1Edt7cxm5y5dEKGY6kRP+kW6SEC+wWItttR1O3ovo5hIOSu9fmXNLcbSAwIdDttFAv2W5SkEA3X0yPG9ILW+8Dmrvl3GC3oWl+SKi3bDdp7WbGbT0wtus+6eBksNsJbpYh0N32t+sWwyiR9xi/sGu369vUU2IIOC/UM7bburdtuh1KezIUuCDdukUueuopiYKyDMmCxo2yh2y3aGlSS7fV+Ky3vGSxa7chV/VTeJ4MVwbmYOE1dXNKL0TiwEHp2u2YsFuobLdh2Ka7RSXy1O+WG1XU49Yv0vU+wGO3cNlug+B6qttwKKbbgWTFjNtxPV7d7gPYLUy2W+JcqYR3qpus8but2V4RPW67xHYL7JPs9u+VcfYpJmcwUneTHFxRThVNhPSVx+z2f4pCeSv1btdwVOx9972NUIM32D3Obv+bwQC26EZPTLdBp6VuPV7ox3dIpCLtuo1jt38oBoxXXb6harpZTkmfKNfBVWubbvHUTHb7hxJwq3q7nCON3SK3VU77gf+WbkrnbmuFei0zSYymbj/6FtayYkJTt72Fb126Rcr8ckfP7ZE6QH65ud0To6xKLc4+LNtui2FaOlPz9zt0W48kvwUXmkigW+JLUWr29aur2QDe1bvJcphKy4Bgtw9ZZRrSan0KXBAKiQN0THoIOP6rm+Nf7AbG/TqVbjqVD5olFBIHfdLJEPSL6dZXUevLo6LFoCsaAzBS6B/JV6WT4W8qokVFq4gRTc0T38BUVYiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiI6Gd7cCAAAAAAIMjfeoQFKgAAADgBUU0OENcSbxQAAAAASUVORK5CYII=">
+				</template>
+			</wx-open-launch-weapp>
+		</div>
+
+		<div id="desktop-web-container" class="hidden">
+			<p class="">请在手机打开网页链接</p>
+		</div>
+		<script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.3.4/vconsole.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var vConsole = new VConsole();
+		</script>
+		<script src="https://cainiaocdn.herdsric.com/bod2021/h5/js/jquery.min.js"></script>
+		<script type="text/javascript">
+			var appLink = "weixin://dl/business/?t=aHWwisXtSYs"; // 小程序跳转链接，用于移动端浏览器（非微信环境）
+
+			// wx-open-launch-weapp 相关监听事件
+			var btn = document.getElementById('launch-btn');
+			btn.addEventListener('launch', function(e) {
+				console.log('success');
+			});
+			btn.addEventListener('error', function(e) {
+				console.log('fail', e.detail);
+			});
+
+			$(document).ready(function() {
+				var ua = navigator.userAgent.toLowerCase()
+				var isWXWork = ua.match(/wxwork/i) == 'wxwork'
+				var isWeixin = !isWXWork && ua.match(/MicroMessenger/i) == 'micromessenger'
+				var isMobile = false
+				var isDesktop = false
+				if (navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|IEMobile)/i)) {
+					isMobile = true
+				} else {
+					isDesktop = true
+				}
+				console.warn('ua', ua)
+				console.warn(ua.match(/MicroMessenger/i) == 'micromessenger')
+				var m = ua.match(/MicroMessenger/i)
+				console.warn(m && m[0] === 'micromessenger')
+
+
+				var appid = 'wx5fb21711ad7fb9f4';
+				console.log(`appid: ${appid}`);
+				console.log(`add launchBtn`);
+
+				if (isWeixin) {
+					console.log(`=== nav: weixin`);
+					var launchBtn = document.getElementById('launch-btn')
+					launchBtn.addEventListener('ready', function(e) {
+						console.log('开放标签 ready')
+					})
+					launchBtn.addEventListener('launch', function(e) {
+						console.log('开放标签 success')
+					})
+					launchBtn.addEventListener('error', function(e) {
+						console.log('开放标签 fail', e.detail)
+					})
+
+					var URL = "https://bd2021.herdsric.com/dior-coupon/getJsSignature";
+					let codeUrl = encodeURIComponent(window.location.href);
+					console.log(`=== codeUrl: ${codeUrl}`);
+
+					$.ajax({
+						url: URL,
+						data: {
+							url: codeUrl
+						},
+						success: function(res) {
+							var data = res;
+							console.log('===wxShare res.data: ' + JSON.stringify(data));
+							wx.config({
+								debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+								appId: appid, // 必填，公众号的唯一标识
+								timestamp: data.timeStamp, // 必填，生成签名的时间戳
+								nonceStr: data.noncestr, // 必填，生成签名的随机串
+								signature: data.signature, // 必填，签名，见附录1
+								jsApiList: ['chooseImage'], // 安卓上必填一个，随机即可
+								openTagList: ['wx-open-launch-weapp'], // 填入打开小程序的开放标签名
+							});
+							wx.ready(function() {
+								$('.lbl-pre-hint').removeClass('hidden');
+							});
+						},
+						complete: function() {
+							console.log('===wxShare complete');
+						}
+					})
+				} else if (isDesktop) {
+					console.log(`=== nav: desktop`);
+					// 在 pc 上则给提示引导到手机端打开
+					var containerEl = document.getElementById('desktop-web-container')
+					containerEl.classList.remove('hidden')
+					containerEl.classList.add('full', 'desktop-web-container')
+
+					$('#desktop-web-container').removeClass('hidden').addClass('full');
+				} else {
+					console.log(`=== nav: mobile broswer`);
+					location.href = appLink;
+					$('.prepage-btn').removeClass('hidden');
+				}
+
+				$(".prepage-btn").click(function() {
+					location.href = appLink;
+					tj.push(TJ_TYPE.PG_ENTER, 'prepage-btn');
+				});
+			});
+		</script>
 	</body>
 </html>

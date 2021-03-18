@@ -1,0 +1,189 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+
+body {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	font-family: -apple-system, BlinkMacSystemFont, SF UI Text,
+		Helvetica Neue, PingFang SC, Hiragino Sans GB,
+		Microsoft YaHei UI, Microsoft YaHei, Arial, sans-serif;
+}
+
+img {
+	width: 40vw;
+	max-width: 300px;
+}
+
+.abs {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.circle {
+	width: 30vw;
+	height: 30vw;
+	max-width: 100px;
+	max-height: 100px;
+	/* animation: r360 3s linear infinite; */
+}
+
+#circle1,
+#circle2 {
+	background: url(http://alicdn.herdsric.com/herdsric-tool/music-open.png) no-repeat;
+	background-size: cover;
+}
+
+@keyframes r360 {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.wrapper {
+	position: relative;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+
+.hor-wrapper {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+
+.sb {
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+}
+
+.no-select {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.no-touch {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+
+.no-pointer {
+	pointer-events: none;
+}
+
+.no-bg {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.border {
+	border: 1px solid #000000;
+}
+
+.w-100 {
+	width: 100%;
+}
+
+.m-20 {
+	margin: 20px;
+}
+
+.h-45 {
+	height: 45vw;
+}
+
+.bg-blue {
+	background-color: blue;
+}
+
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+
+
+.map {
+	margin: 1rem;
+	width: 300px;
+	height: 300px;
+	overflow: scroll;
+	position: relative;
+	margin-bottom: 15px;
+}
+
+.map img {
+	width: 1200px;
+	height: 1200px;
+}
+
+.map-desc {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+	top: 10px;
+	left: 10px;
+	font-size: 24px;
+	z-index: 5;
+}
+
+.touch-auto {
+	-ms-touch-action: auto;
+	touch-action: auto;
+}
+
+.touch-none {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+
+.touch-pan-x {
+	-ms-touch-action: pan-x;
+	touch-action: pan-x;
+}
+
+.touch-pan-y {
+	-ms-touch-action: pan-y;
+	touch-action: pan-y;
+}
+
+.touch-pan-right {
+	-ms-touch-action: pan-right;
+	touch-action: pan-right;
+}
+
+.touch-manipulation {
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+}

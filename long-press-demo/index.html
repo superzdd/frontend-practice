@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport"
+			content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover" />
+		<title>移动端元素选中特殊属性</title>
+		<!-- <link rel="stylesheet" type="text/css" href="common.css" /> -->
+		<link rel="stylesheet" type="text/css" href="index.css" />
+	</head>
+	<body>
+		<h1>移动端元素选中特殊属性一览</h1>
+		<p>请在移动端尝试所有效果</p>
+
+		<h2>user-select: 用于阻止长按时出现的蓝色选中框</h2>
+		<p>user-select: 将其置为none后，用户选中这个元素时，不会出现移动端才有的蓝色选中框</p>
+		<code>user-select: none;</code>
+		<p>注意事项</p>
+		<ol>
+			<li>
+				副作用：当长按选中一个user-select:none的元素时，蓝色选中框虽然不会出现在当前元素上，但是蓝色选中框会转移到其相邻的兄弟节点上出现
+			</li>
+		</ol>
+		<div class="hor-wrapper w-100 border sb m-20">
+			<div class="wrapper border no-select">
+				<img src="http://alicdn.herdsric.com/herdsric-tool/herdsric-ape.jpg">
+				<h5 class="no-select">长按无法选中</h5>
+			</div>
+
+			<div class="wrapper border">
+				<img src="http://alicdn.herdsric.com/herdsric-tool/herdsric-ape.jpg">
+				<h5 class="no-select">长按可以选中</h5>
+			</div>
+		</div>
+
+		<div class="hor-wrapper w-100 border m-20">
+			<div class="wrapper border no-select">
+				<h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea
+					dignissimos quae vel
+					vitae esse iste reprehenderit asperiores facilis ex maxime cupiditate porro itaque dolorem
+					temporibus molestiae omnis perspiciatis nihil impedit.</h3>
+				<h5 class="no-select">长按无法选中</h5>
+			</div>
+
+			<div class="wrapper border">
+				<h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea dignissimos quae vel vitae esse iste
+					reprehenderit asperiores facilis ex maxime cupiditate porro itaque dolorem temporibus molestiae
+					omnis perspiciatis nihil impedit.</h3>
+				<h5 class="no-select">长按可以选中</h5>
+			</div>
+		</div>
+
+
+		<h2>pointer-events: 用于阻止元素的点击事件调用</h2>
+		<code>pointer-events: none;</code>
+		<p>将其置为none之后，会阻止触发点击事件，比如可以作用在页面上的展示型元素上，加上这个属性后，可以避免用户误触，导致其触发一些默认行为</p>
+		<div class="hor-wrapper w-100 border sb m-20">
+			<div class="wrapper border no-pointer">
+				<img src="http://alicdn.herdsric.com/herdsric-tool/herdsric-ape.jpg">
+				<h5 class="no-select">无法长按识别</h5>
+			</div>
+
+			<div class="wrapper border">
+				<img src="http://alicdn.herdsric.com/herdsric-tool/herdsric-ape.jpg">
+				<h5 class="no-select">可以长按识别</h5>
+			</div>
+		</div>
+
+		<div class="hor-wrapper w-100 border sb m-20">
+			<div class="wrapper border no-pointer">
+				<img class="click-img" src="http://alicdn.herdsric.com/herdsric-tool/herdsric-ape.jpg">
+				<h5 class="no-select">无法触发点击</h5>
+			</div>
+
+			<div class="wrapper border">
+				<img class="click-img" src="http://alicdn.herdsric.com/herdsric-tool/herdsric-ape.jpg">
+				<h5 class="no-select">触发点击事件</h5>
+			</div>
+		</div>
+
+		<h2>touch-action：阻止拖动</h2>
+		<p>限制拖动，可以限制用户在某个方向上的移动或者缩放，但不能阻止点击事件</p>
+		<p>主要用在整个页面阻止拖动上</p>
+		<div class="wrapper">
+			<div class="map touch-auto">
+				<img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
+					alt="">
+				<code class="map-desc">touch-action: auto;</code>
+			</div>
+
+			<div class="map touch-none">
+				<img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
+					alt="">
+				<code class="map-desc">touch-action: none;</code>
+			</div>
+
+			<div class="map touch-pan-x">
+				<img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
+					alt="">
+				<code class="map-desc">touch-action: pan-x;</code>
+			</div>
+
+			<div class="map touch-pan-y">
+				<img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
+					alt="">
+				<code class="map-desc">touch-action: pan-y;</code>
+			</div>
+		</div>
+
+		<h2>-webkit-tap-highlight-color：取消灰色选中框</h2>
+		<p>点击元素时，会出现一个半透明的灰色背景。在H5的使用场景中，很多元素都是png图片构成的，在点击图片时很容易出现这个灰色背景，影响体验。使用此属性可以将其隐藏</p>
+		<p>一般在div上设置点击事件后，就会出现这种情况</p>
+		<code>-webkit-tap-highlight-color: rgba(0, 0, 0, 0);</code>
+		<div class="hor-wrapper w-100 border sb m-20">
+			<div class="wrapper border h-45">
+				<div id="circle1" class="circle no-bg"></div>
+				<h5 class="no-select">没有灰色背景</h5>
+			</div>
+
+			<div class="wrapper border h-45">
+				<!-- <img id="circle2" class="circle" src="http://alicdn.herdsric.com/herdsric-tool/music-open.png"> -->
+				<div id="circle2" class="circle"></div>
+				<h5 class="no-select">有灰色背景</h5>
+			</div>
+		</div>
+
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.slim.min.js"></script>
+		<script src="app.js"></script>
+	</body>
+</html>

@@ -45,6 +45,10 @@
 19. [GRID笔记](https://superzdd.github.io/frontend-practice/grid-layout)
 
 20. [排序算法汇总-冒泡，选择，插入](https://superzdd.github.io/frontend-practice/sort-collection)
-21. 
+
 21. 视频测试合集
-- [一次切换视频资源](https://superzdd.github.io/frontend-practice/video/random-video/index.html)
+- [依次切换视频资源](https://superzdd.github.io/frontend-practice/video/random-video/index.html)
+
+22. [移动端用户长按不出现选中蓝色效果](https://superzdd.github.io/frontend-practice/long-press-demo/index.html)
+
+23. [h5跳转微信小程序](https://superzdd.github.io/frontend-practice/h5-jump-mp)
