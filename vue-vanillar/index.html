@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>原生实现vue</title>
+    </head>
+    <body>
+        <div id="app">
+            <div class="banner">
+                <h1>{{bannerText}}</h1>
+            </div>
+            <div class="page p1">
+                <span>{{more.count}}</span>
+                <input type="text" />
+            </div>
+        </div>
+        <div></div>
+        <script src="tool.js" type="text/javascript" charset="utf-8"></script>
+        <script src="vue.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            let demo = new Vue({
+                el: '#app', // notice the # symbol should be added
+                data: {
+                    bannerText: '纯手写实现类似vue架构页面',
+                    more: {
+                        count: 1,
+                    },
+                },
+            });
+
+            console.log(`demo init complete, demo is:`);
+            console.log(demo);
+        </script>
+    </body>
+</html>
