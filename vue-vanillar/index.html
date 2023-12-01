@@ -6,17 +6,26 @@
     </head>
     <body>
         <div id="app">
+            <h1>
+                绑定bannerText属性，可通过控制台输入test1()快速修改bannerText
+            </h1>
             <div class="banner">
-                <h1>{{bannerText}}</h1>
+                <h2>bannerText: {{bannerText}}</h2>
             </div>
+
+            <h1>
+                绑定more.count属性，可通过控制台输入test2()快速修改more.count
+            </h1>
             <div class="page p1">
-                <span>{{more.count}}</span>
-                <input type="text" />
+                <span>more.count: {{more.count}}</span>
+                <input type="number" v-model="more.count" />
             </div>
         </div>
         <div></div>
-        <script src="tool.js" type="text/javascript" charset="utf-8"></script>
-        <script src="vue.js" type="text/javascript" charset="utf-8"></script>
+        <script src="tool.js"></script>
+        <script src="notifyManager.js"></script>
+        <script src="vue-compile.js"></script>
+        <script src="vue.js"></script>
         <script>
             let demo = new Vue({
                 el: '#app', // notice the # symbol should be added
@@ -30,6 +39,30 @@
 
             console.log(`demo init complete, demo is:`);
             console.log(demo);
+
+            function test1(txt = '') {
+                if (txt === '') {
+                    const harryPotterBooks = [
+                        '哈利·波特与魔法石',
+                        '哈利·波特与密室',
+                        '哈利·波特与阿兹卡班的囚徒',
+                        '哈利·波特与火焰杯',
+                        '哈利·波特与凤凰社',
+                        '哈利·波特与混血王子',
+                        '哈利·波特与死亡圣器',
+                    ];
+                    txt =
+                        harryPotterBooks[
+                            Math.floor(Math.random() * harryPotterBooks.length)
+                        ];
+                }
+                demo.$data.bannerText = txt;
+            }
+
+            function test2() {
+                let txt = Math.round(Math.random() * 2000);
+                demo.$data.more.count = txt;
+            }
         </script>
     </body>
 </html>
