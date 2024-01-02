@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>object property</title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            Object.prototype.prop3 = 'value3'; // 这会添加到所有对象的原型链上
+
+            let obj = {
+                prop1: 'value1',
+                prop2: 'value2',
+            };
+            let obj1 = {
+                foo: 'bar',
+            };
+            console.log('检查obj和obj1是否都包含prop3属性');
+            console.log(obj);
+            // {prop1: 'value1', prop2: 'value2'}
+            // prop1: "value1"
+            // prop2: "value2"
+            // [[Prototype]]: Object
+            //  prop3: "value3"
+            console.log(JSON.stringify(obj)); // 原型链上的属性不会输出 {"prop1":"value1","prop2":"value2"}
+            console.log(obj1);
+
+            console.log('测试开始');
+            console.log(`使用for (let key in obj)，输出所有prop`);
+            for (let key in obj) {
+                console.log(key + ' -> ' + obj[key]);
+            }
+            // prop1 -> value1
+            // prop2 -> value2
+            // prop3 -> value3
+
+            console.log('使用hasOwnProperty过滤prop3');
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    console.log(key + ' -> ' + obj[key]);
+                }
+            }
+            // prop1 -> value1
+            // prop2 -> value2
+
+            console.log('使用getOwnPropertyNames过滤prop3');
+            Object.getOwnPropertyNames(obj).forEach((prop) => {
+                console.log(prop);
+            });
+            // prop1
+            // prop2
+
+            console.log('使用Object.keys过滤prop3');
+            Object.keys(obj).forEach((key) => {
+                console.log(key + ' -> ' + obj[key]);
+            });
+            // prop1 -> value1
+            // prop2 -> value2
+        </script>
+    </body>
+</html>

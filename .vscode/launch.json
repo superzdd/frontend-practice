@@ -10,7 +10,7 @@
             "name": "针对 localhost 启动 Chrome",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}",
-            "file": "${workspaceRoot}/vue-vanillar/index.html"
+            "file": "${workspaceRoot}/objectproperty/index.html"
         }
     ]
 }
