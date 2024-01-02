@@ -54,6 +54,6 @@
 
 22. [移动端用户长按不出现选中蓝色效果](https://superzdd.github.io/frontend-practice/long-press-demo/index.html)
 
-23. [h5 跳转微信小程序](https://github.com/superzdd/frontend-practice/tree/master/h5-jump-mp/)
+23. [h5 跳转微信小程序](https://superzdd.github.io/frontend-practice/tree/master/h5-jump-mp/)
 
-24. [获取对象的非原型属性](https://github.com/superzdd/objectproperty/README.md)
+24. [获取对象的非原型属性](https://superzdd.github.io/frontend-practice/objectproperty/README.md)
